@@ -26,8 +26,8 @@
 #tut-overlay{display:none;position:fixed;inset:0;z-index:9000;pointer-events:none}
 #tut-overlay.active{display:block}
 #tut-backdrop{position:absolute;inset:0;background:rgba(2,43,88,.72);transition:all .3s}
-#tut-spotlight{position:absolute;border-radius:10px;box-shadow:0 0 0 4000px rgba(2,43,88,.72);border:2.5px solid #0C7DEC;transition:all .35s cubic-bezier(.4,0,.2,1);pointer-events:none}
-#tut-card{position:absolute;background:#fff;border-radius:14px;padding:20px 22px 16px;width:340px;max-height:380px;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.35);pointer-events:all;transition:all .35s cubic-bezier(.4,0,.2,1)}
+#tut-spotlight{position:fixed;border-radius:10px;box-shadow:0 0 0 4000px rgba(2,43,88,.72);border:2.5px solid #0C7DEC;transition:left .15s,top .15s,width .15s,height .15s;pointer-events:none}
+#tut-card{position:fixed;background:#fff;border-radius:14px;padding:20px 22px 16px;width:340px;max-height:420px;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.35);pointer-events:all;transition:left .15s,top .15s}
 #tut-card::before{content:'';position:absolute;width:14px;height:14px;background:#fff;transform:rotate(45deg)}
 .tut-step-label{font-size:10px;font-weight:600;color:#0C7DEC;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
 .tut-title{font-size:14px;font-weight:700;color:#022B58;font-family:Verdana,sans-serif;margin-bottom:7px}
@@ -62,7 +62,7 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
 .mode-toggle{display:flex;gap:6px;align-items:center}
 .mode-label{font-size:11px;color:#ACDDFA;margin-right:4px}
 
-.header{background:#165AA6;color:#fff;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#022B58 0%,#165AA6 60%,#0C7DEC 100%)}
+.header{background:#165AA6;color:#fff;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#022B58 0%,#165AA6 60%,#0C7DEC 100%);position:sticky;top:0;z-index:1000}
 .header-title{font-size:20px;font-weight:700;font-family:Verdana,sans-serif;letter-spacing:-0.3px}
 .header-sub{font-size:12px;color:#94A3B8;margin-top:2px}
 .header-right{display:flex;align-items:center;gap:10px}
@@ -161,7 +161,7 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
 .cb-roi-eff{background:#F3E8FF;color:#6B21A8}
 
 /* ── Floating Export Button ──────────────────────────────────────────── */
-.fab{position:fixed;top:16px;right:20px;z-index:999;display:flex;gap:8px;align-items:center}
+.fab{position:fixed;top:128px;right:20px;z-index:998;display:flex;gap:8px;align-items:center}
 .fab-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:10px;border:none;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;box-shadow:0 2px 8px rgba(0,0,0,.18)}
 .fab-btn:active{transform:scale(.97)}
 .fab-pdf{background:#EF4444;color:#fff}
@@ -220,8 +220,11 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
 </head>
 <body>
 
-<!-- Floating Export Buttons -->
+<!-- Floating Export Buttons + Tutorial -->
 <div class="fab">
+  <button class="fab-btn" onclick="startTutorial()" title="Kurzeinführung starten" style="background:#022B58;color:#ACDDFA;border:1.5px solid #165AA6">
+    ❓ Einführung
+  </button>
   <button class="fab-btn fab-pdf" onclick="exportPDF(this)" title="Als PDF speichern">
     <svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V5.5L9.5 0H4zm5 1v4h4L9 1zM4.5 8h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1zm0 2.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1zm0 2.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1 0-1z"/></svg>
     <span class="fab-spinner" id="spin-pdf"></span>
@@ -232,6 +235,10 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
     <span class="fab-spinner" id="spin-pptx"></span>
     <span id="lbl-pptx">PPTX</span>
   </button>
+</div>
+
+<div class="topbar" style="justify-content:flex-start">
+  <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJ1dWlkLTA4NDg5NDE1LWNhMTctNDdlMy1iZjA4LTkwMzk3MjIxN2Y3YSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMTEwOS4yNTc3NCAxOTYuNDc4NTciPjxkZWZzPjxzdHlsZT4udXVpZC1lNWFhODYyYi00YWIyLTQ2ZjUtOTMxNy0xMjU2ZTliMmQ1MzYsLnV1aWQtYTlhMzU0NTktNzhiNy00YThkLThhNTItZmYyMDA4Yjg5OGZmLC51dWlkLTlkMGExYjM5LTEwMTEtNDBhMS1iY2Y3LWQ3MTBlODlkMGQ1NywudXVpZC0zNGQ4NTBiMy03MDU1LTQyYzEtYjJkZi00NTNlNjZjZGJiMGYsLnV1aWQtNDAzMWQ3OWQtM2ZiMi00OTY0LWIxMTAtMzcyMmQ4YzQ0YjVlLC51dWlkLTUxZmQ5ZWM1LWNjYWYtNGIyNi1hNDIyLWFiMmRiZDlkNDRhYXtzdHJva2Utd2lkdGg6MHB4O30udXVpZC1lNWFhODYyYi00YWIyLTQ2ZjUtOTMxNy0xMjU2ZTliMmQ1MzYsLnV1aWQtOWQwYTFiMzktMTAxMS00MGExLWJjZjctZDcxMGU4OWQwZDU3e2ZpbGw6IzcwOTVhYTt9LnV1aWQtYTlhMzU0NTktNzhiNy00YThkLThhNTItZmYyMDA4Yjg5OGZme2ZpbGw6Izg3ODg4YTt9LnV1aWQtOWQwYTFiMzktMTAxMS00MGExLWJjZjctZDcxMGU4OWQwZDU3e2ZpbGwtcnVsZTpldmVub2RkO30udXVpZC0wYjkxOTZkYS0xYmU1LTQ0YTAtYjE4NC0zOGM2ZjdlZmNmMDh7ZmlsbDpub25lO3N0cm9rZTojMDQyZDQyO3N0cm9rZS1taXRlcmxpbWl0OjEwO30udXVpZC0zNGQ4NTBiMy03MDU1LTQyYzEtYjJkZi00NTNlNjZjZGJiMGZ7ZmlsbDojMTE0YzZmO30udXVpZC00MDMxZDc5ZC0zZmIyLTQ5NjQtYjExMC0zNzIyZDhjNDRiNWV7ZmlsbDojMDAzMDVlO30udXVpZC01MWZkOWVjNS1jY2FmLTRiMjYtYTQyMi1hYjJkYmQ5ZDQ0YWF7ZmlsbDojODU5OWFjO308L3N0eWxlPjwvZGVmcz48cGF0aCBjbGFzcz0idXVpZC1lNWFhODYyYi00YWIyLTQ2ZjUtOTMxNy0xMjU2ZTliMmQ1MzYiIGQ9Im0xNi44MzE5NiwxNjQuMDc3OWgtNS43MDYwNWwtMy4wNzEyOSwxOC4zNjEzM0gyLjgzNjg1bDMuMDcxMjktMTguMzYxMzNILjE5NzJsLjcxMzg3LTQuMjk5OGgxNi42NTEzN2wtLjczMDQ3LDQuMjk5OFoiLz48cGF0aCBjbGFzcz0idXVpZC1lNWFhODYyYi00YWIyLTQ2ZjUtOTMxNy0xMjU2ZTliMmQ1MzYiIGQ9Im00My45MTY5MiwxNTkuNzc4MWwtLjczMTQ1LDQuMjk5OGgtMTAuNjU1MjdsLS43NzczNCw0LjY0ODQ0aDguOTEwMTZsLS42ODA2Niw0LjEwMDU5aC04LjkxNDA2bC0uODg2NzIsNS4zMTI1aDEwLjg0NjY4bC0uNzMwNDcsNC4yOTk4aC0xNi4xMzY3MmwzLjc4NTE2LTIyLjY2MTEzaDE1Ljk3MDdaIi8+PHBhdGggY2xhc3M9InV1aWQtZTVhYTg2MmItNGFiMi00NmY1LTkzMTctMTI1NmU5YjJkNTM2IiBkPSJtNzEuOTk3OTgsMTY4LjMxMTNsLTUuMTc5NjkuMjQ5MDJjLjAyMTQ4LS4zNDM3NS4wMzMyLS42MTAzNS4wMzMyLS43OTk4LDAtMS4xNDM1NS0uMjg4MDktMi4xMTIzLS44NjMyOC0yLjkwNjI1LS41NzYxNy0uNzkzOTUtMS40NDQzNC0xLjE5MTQxLTIuNjA2NDUtMS4xOTE0MS0xLjkwNDMsMC0zLjI2ODU1LDEuMTQyNTgtNC4wOTI3NywzLjQyODcxLS44MjQyMiwyLjI4NTE2LTEuMjM2MzMsNC41MjM0NC0xLjIzNjMzLDYuNzE0ODQsMCwxLjYyNjk1LjM0ODYzLDIuODE0NDUsMS4wNDU5LDMuNTYwNTUuNjk3MjcuNzQ4MDUsMS41OTM3NSwxLjEyMTA5LDIuNjg5NDUsMS4xMjEwOSwyLjIyNDYxLDAsMy43NTE5NS0xLjM5NDUzLDQuNTgyMDMtNC4xODM1OWw0LjY2NTA0LjgxMzQ4Yy0xLjcyNjU2LDUuMTU3MjMtNC45NDIzOCw3LjczNjMzLTkuNjQ1NTEsNy43MzYzMy0yLjkxMTEzLDAtNS4xMzU3NC0uOTU4OTgtNi42NzM4My0yLjg3NzkzLTEuNTM5MDYtMS45MTg5NS0yLjMwNzYyLTQuMjMzNC0yLjMwNzYyLTYuOTQzMzYsMC0zLjYxNjIxLDEuMDAwOTgtNi43OTg4MywzLjAwNDg4LTkuNTQ2ODgsMi4wMDI5My0yLjc0OTAyLDQuNjY1MDQtNC4xMjMwNSw3Ljk4NTM1LTQuMTIzMDUsMi40MDEzNywwLDQuNDEwMTYuNzI3NTQsNi4wMjYzNywyLjE4MzU5LDEuNjE1MjMsMS40NTUwOCwyLjQ3MzYzLDMuNzA5OTYsMi41NzMyNCw2Ljc2NDY1WiIvPjxwYXRoIGNsYXNzPSJ1dWlkLWU1YWE4NjJiLTRhYjItNDZmNS05MzE3LTEyNTZlOWIyZDUzNiIgZD0ibTEwMi4wODk3OCwxNTkuNzc4MWwtMy43ODUxNiwyMi42NjExM2gtNC45OTkwMmwxLjU5MDgyLTkuNDc5NDloLTcuMzIwMzFsLTEuNTkwODIsOS40Nzk0OWgtNC45ODE0NWwzLjc4NTE2LTIyLjY2MTEzaDQuOTk4MDVsLTEuNDkwMjMsOC44ODE4NGg3LjMyMDMxbDEuNDkwMjMtOC44ODE4NGg0Ljk4MjQyWiIvPjxwYXRoIGNsYXNzPSJ1dWlkLWU1YWE4NjJiLTRhYjItNDZmNS05MzE3LTEyNTZlOWIyZDUzNiIgZD0ibTEzMi40MDIyOCwxNTkuNzc4MWwtMy44MDg1OSwyMi42NjExM2gtNC4yNDIxOWwtNi42MDg0LTE2LjQyMTg4Yy0uMDQ0OTIsMS4wOTc2Ni0uNDA0MywzLjY4NDU3LTEuMDc5MSw3Ljc2MTcybC0xLjQ0NDM0LDguNjYwMTZoLTQuMjU4NzlsMy43ODUxNi0yMi42NjExM2g1Ljc0NTEybDUuNDU4MDEsMTMuODIxMjljLjAzMzItLjQ1NDEuMzY1MjMtMi42NzA5Ljk5NzA3LTYuNjUzMzJsMS4xOTcyNy03LjE2Nzk3aDQuMjU4NzlaIi8+PHBhdGggY2xhc3M9InV1aWQtZTVhYTg2MmItNGFiMi00NmY1LTkzMTctMTI1NmU5YjJkNTM2IiBkPSJtMTUwLjg5NTQ0LDE4Mi43ODc4NmMtMi42Nzg3MSwwLTQuODMzOTgtLjkwMjM0LTYuNDY2OC0yLjcwNjA1cy0yLjQ0ODI0LTQuMTg5NDUtMi40NDgyNC03LjE1NTI3YzAtMy41ODU5NC45Njc3Ny02LjczNDM4LDIuOTA1MjctOS40NDYyOSwxLjkzNjUyLTIuNzExOTEsNC41MDk3Ny00LjA2NzM4LDcuNzE5NzMtNC4wNjczOCwyLjc1NTg2LDAsNC45NDQzNC45MTMwOSw2LjU2NTQzLDIuNzM5MjZzMi40MzI2Miw0LjI0NDE0LDIuNDMyNjIsNy4yNTQ4OGMwLDMuNjQxNi0uOTYyODksNi43ODIyMy0yLjg4ODY3LDkuNDIwOS0xLjkyNTc4LDIuNjQwNjItNC41MzIyMywzLjk1OTk2LTcuODE5MzQsMy45NTk5NlptLjA4MzAxLTQuMTgzNTljMS45NDcyNywwLDMuMzQxOC0xLjExOTE0LDQuMTgzNTktMy4zNTc0Mi44NDA4Mi0yLjIzODI4LDEuMjYxNzItNC40MzE2NCwxLjI2MTcyLTYuNTgxMDUsMC0zLjM3OTg4LTEuMjY3NTgtNS4wNjkzNC0zLjgwMTc2LTUuMDY5MzQtMS44MDQ2OSwwLTMuMTYwMTYsMS4wNTI3My00LjA2NzM4LDMuMTU4Mm0tMS4zNjEzMyw0LjQxNTA0YzAsMy4yODAyNywxLjI2MTcyLDQuOTE5OTIsMy43ODUxNiw0LjkxOTkyWiIvPjxwYXRoIGNsYXNzPSJ1dWlkLWU1YWE4NjJiLTRhYjItNDZmNS05MzE3LTEyNTZlOWIyZDUzNiIgZD0ibTE4MC4yNDMxLDE1OS43NzgxbC0zLjA2NzM4LDE4LjM2MTMzaDguOTIyODVsLS43MTM4Nyw0LjI5OThoLTE0LjEyNzkzbDMuNzg1MTYtMjIuNjYxMTNoNS4yMDExN1oiLz48cGF0aCBjbGFzcz0idXVpZC1lNWFhODYyYi00YWIyLTQ2ZjUtOTMxNy0xMjU2ZTliMmQ1MzYiIGQ9Im0yMDUuMDMyMTYsMTgyLjc4Nzg2Yy0yLjY3ODcxLDAtNC44MzM5OC0uOTAyMzQtNi40NjU4Mi0yLjcwNjA1LTEuNjMyODEtMS44MDM3MS0yLjQ0OTIyLTQuMTg5NDUtMi40NDkyMi03LjE1NTI3LDAtMy41ODU5NC45Njg3NS02LjczNDM4LDIuOTA1MjctOS40NDYyOXM0LjUwOTc3LTQuMDY3MzgsNy43MTk3My00LjA2NzM4YzIuNzU1ODYsMCw0Ljk0NDM0LjkxMzA5LDYuNTY2NDEsMi43MzkyNiwxLjYyMTA5LDEuODI2MTcsMi40MzE2NCw0LjI0NDE0LDIuNDMxNjQsNy4yNTQ4OCwwLDMuNjQxNi0uOTYyODksNi43ODIyMy0yLjg4ODY3LDkuNDIwOS0xLjkyNTc4LDIuNjQwNjItNC41MzIyMywzLjk1OTk2LTcuODE5MzQsMy45NTk5NlptLjA4MzAxLTQuMTgzNTljMS45NDgyNCwwLDMuMzQyNzctMS4xMTkxNCw0LjE4MzU5LTMuMzU3NDJzMS4yNjE3Mi00LjQzMTY0LDEuMjYxNzItNi41ODEwNWMwLTMuMzc5ODgtMS4yNjc1OC01LjA2OTM0LTMuODAxNzYtNS4wNjkzNC0xLjgwMzcxLDAtMy4xNjAxNiwxLjA1MjczLTQuMDY3MzgsMy4xNTgyczAtMS4zNjEzMyw2LjkyOTY5YzAsMy4yODAyNywxLjI2MTcyLDQuOTE5OTIsMy43ODUxNiw0LjkxOTkyWiIvPjwvc3ZnPg==" alt="techconsult" style="height:32px;display:block;filter:brightness(0) invert(1)">
 </div>
 
 <!-- Print-only elements -->
@@ -280,7 +287,6 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
   </div>
   <div class="header-right" style="position:absolute;right:32px;top:50%;transform:translateY(-50%)">
     <button class="reset-btn" onclick="resetAll()">&#8635; Zurücksetzen</button>
-    <button class="tut-btn" onclick="startTutorial()" title="Kurzeinführung starten">❓ Einführung</button>
   </div>
 </div>
 
@@ -1656,6 +1662,56 @@ function getTutSteps() {
 
 let tutStep = 0;
 let tutSteps = [];
+let tutTrackEl = null;   // currently spotlighted element
+let tutTrackRAF = null;  // animation frame handle
+
+// Live-tracking: repositions spotlight + card every frame while tutorial is open
+function tutTrack() {
+  if (!tutTrackEl) return;
+  const step = tutSteps[tutStep];
+  if (!step) return;
+
+  const el = document.querySelector(step.target);
+  if (!el || el.offsetParent === null) { tutTrackRAF = requestAnimationFrame(tutTrack); return; }
+
+  const r = el.getBoundingClientRect();
+  const pad = 10;
+  const spot = document.getElementById('tut-spotlight');
+  spot.style.left   = (r.left - pad) + 'px';
+  spot.style.top    = (r.top  - pad) + 'px';
+  spot.style.width  = (r.width  + pad*2) + 'px';
+  spot.style.height = (r.height + pad*2) + 'px';
+
+  const card = document.getElementById('tut-card');
+  const cw = 340, vw = window.innerWidth, vh = window.innerHeight;
+  const ch = card.offsetHeight || 280;
+  const arrow = step.arrow;
+  let cx, cy;
+
+  if (arrow === 'bottom') {
+    cx = Math.min(Math.max(r.left + r.width/2 - cw/2, 12), vw - cw - 12);
+    cy = r.top - pad - ch - 18;
+    if (cy < 12) cy = r.bottom + pad + 18;
+  } else if (arrow === 'top') {
+    cx = Math.min(Math.max(r.left + r.width/2 - cw/2, 12), vw - cw - 12);
+    cy = r.bottom + pad + 18;
+    if (cy + ch > vh - 12) cy = r.top - pad - ch - 18;
+  } else if (arrow === 'right') {
+    cx = r.right + pad + 18;
+    cy = Math.min(Math.max(r.top + r.height/2 - ch/2, 12), vh - ch - 12);
+    if (cx + cw > vw - 12) cx = r.left - pad - cw - 18;
+  } else { // left
+    cx = r.left - pad - cw - 18;
+    cy = Math.min(Math.max(r.top + r.height/2 - ch/2, 12), vh - ch - 12);
+    if (cx < 12) cx = r.right + pad + 18;
+  }
+
+  card.style.left = Math.max(12, cx) + 'px';
+  card.style.top  = Math.max(12, Math.min(cy, vh - ch - 12)) + 'px';
+  card.style.width = cw + 'px';
+
+  tutTrackRAF = requestAnimationFrame(tutTrack);
+}
 
 function startTutorial() {
   tutSteps = getTutSteps();
@@ -1668,6 +1724,8 @@ function startTutorial() {
 function endTutorial() {
   document.getElementById('tut-overlay').classList.remove('active');
   document.body.style.overflow = '';
+  tutTrackEl = null;
+  if (tutTrackRAF) { cancelAnimationFrame(tutTrackRAF); tutTrackRAF = null; }
   try { localStorage.setItem('pur_tut_seen', '1'); } catch(e) {}
 }
 
@@ -1681,12 +1739,27 @@ function tutNext() {
 }
 
 function tutShow(idx) {
+  // Cancel previous tracking
+  tutTrackEl = null;
+  if (tutTrackRAF) { cancelAnimationFrame(tutTrackRAF); tutTrackRAF = null; }
+
+  // Rebuild steps every time — catches dynamic card changes (Intent+Addon etc.)
+  tutSteps = getTutSteps();
   const step = tutSteps[idx];
+  if (!step) { endTutorial(); return; }
   const total = tutSteps.length;
 
+  // Skip invisible targets
+  const el = document.querySelector(step.target);
+  if (!el || el.offsetParent === null) {
+    if (idx < total - 1) { tutStep++; tutShow(tutStep); }
+    else { endTutorial(); }
+    return;
+  }
+
+  // Update card text
   document.getElementById('tut-step-label').textContent = 'Schritt ' + (idx+1) + ' von ' + total;
   document.getElementById('tut-title').textContent = step.title;
-  // Render newlines as <br>
   document.getElementById('tut-text').innerHTML = step.text.replace(/\n/g, '<br>');
   document.getElementById('tut-next-btn').textContent = idx === total-1 ? 'Fertig ✓' : 'Weiter →';
 
@@ -1698,51 +1771,13 @@ function tutShow(idx) {
     dots.appendChild(d);
   }
 
-  const el = document.querySelector(step.target);
-  if (!el || el.style.display === 'none') {
-    // skip hidden steps
-    if (idx < total - 1) { tutStep++; tutShow(tutStep); }
-    else { endTutorial(); }
-    return;
-  }
+  // Scroll element into view, then start live tracking
   el.scrollIntoView({behavior: 'smooth', block: 'center'});
-
+  tutTrackEl = el;
+  // Short delay to let scroll settle, then start tracking
   setTimeout(() => {
-    const r = el.getBoundingClientRect();
-    const pad = 10;
-    const spot = document.getElementById('tut-spotlight');
-    spot.style.left   = (r.left - pad) + 'px';
-    spot.style.top    = (r.top  - pad + window.scrollY) + 'px';
-    spot.style.width  = (r.width  + pad*2) + 'px';
-    spot.style.height = (r.height + pad*2) + 'px';
-
-    const card = document.getElementById('tut-card');
-    const cw = 340, ch = 260, vw = window.innerWidth, vh = window.innerHeight;
-    let cx, cy;
-    const arrow = step.arrow;
-
-    if (arrow === 'bottom') {
-      cx = Math.min(Math.max(r.left + r.width/2 - cw/2, 12), vw - cw - 12);
-      cy = r.top - pad - ch - 18;
-      if (cy < 12) cy = r.bottom + pad + 18;
-    } else if (arrow === 'top') {
-      cx = Math.min(Math.max(r.left + r.width/2 - cw/2, 12), vw - cw - 12);
-      cy = r.bottom + pad + 18;
-      if (cy + ch > vh - 12) cy = r.top - pad - ch - 18;
-    } else if (arrow === 'right') {
-      cx = r.right + pad + 18;
-      cy = Math.min(Math.max(r.top + r.height/2 - ch/2, 12), vh - ch - 12);
-      if (cx + cw > vw - 12) cx = r.left - pad - cw - 18;
-    } else {
-      cx = r.left - pad - cw - 18;
-      cy = Math.min(Math.max(r.top + r.height/2 - ch/2, 12), vh - ch - 12);
-      if (cx < 12) cx = r.right + pad + 18;
-    }
-
-    card.style.left = Math.max(12, cx) + 'px';
-    card.style.top  = Math.max(12, cy) + 'px';
-    card.style.width = cw + 'px';
-  }, 320);
+    tutTrackRAF = requestAnimationFrame(tutTrack);
+  }, 350);
 }
 
 window.addEventListener('load', () => {
