@@ -41,7 +41,7 @@
 .tut-skip{font-size:11px;color:#94A3B8;cursor:pointer;text-decoration:underline}
 .tut-skip:hover{color:#64748B}
 </style>
-<!-- pptxgenjs loaded on demand to avoid blocking Teams/sandboxed environments -->
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#333333;min-height:100vh}
@@ -302,6 +302,93 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
     <div id="leadgen-row-shared" class="sl-row" style="display:none"><label>Anzahl Leads (Leadgenerierung)</label><input type="range" id="sl-cpll" min="10" max="200" step="10" value="50" oninput="calc()"><span class="val" id="out-cpll">50</span></div>
     <div id="display-row-shared" class="sl-row" style="display:none"><label>Display-Budget (€)</label><input type="range" id="sl-dispb" min="1000" max="20000" step="500" value="5000" oninput="calc()"><span class="val" id="out-dispb">5.000 €</span></div>
     <div id="email-row-shared" class="sl-row" style="display:none"><label>E-Mail Versandgröße (TKP-Einheiten)</label><input type="range" id="sl-emailt" min="1" max="20" step="1" value="5" oninput="calc()"><span class="val" id="out-emailt">5 TKP = 5.000</span></div>
+  </div>
+
+  <!-- MBDB Datenspiegel Info-Karte (erscheint nur wenn E-Mail-Kampagne aktiv) -->
+  <div id="mbdb-datenspiegel" style="display:none;margin-bottom:16px;border:1.5px solid #ACDDFA;border-radius:12px;overflow:hidden;background:#fff">
+    <div style="background:linear-gradient(135deg,#022B58 0%,#165AA6 100%);padding:10px 16px;display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:9px">
+        <span style="font-size:15px">📬</span>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:#fff;font-family:Verdana,sans-serif">Datenspiegel — Zielgruppenreichweite</div>
+          <div style="font-size:10px;color:#ACDDFA;margin-top:1px">Stand: 08. August 2025 · DSGVO-konform</div>
+        </div>
+      </div>
+      <div style="font-size:9px;color:#6EE7B7;background:rgba(110,231,183,.15);border:1px solid rgba(110,231,183,.3);border-radius:10px;padding:2px 9px;font-weight:600">Opt-In / Berechtigtes Interesse</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-bottom:1px solid #E2E8F0">
+      <div style="padding:12px 16px;border-right:1px solid #E2E8F0;text-align:center">
+        <div style="font-size:9.5px;color:#94A3B8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;font-weight:500">Firmenstandorte</div>
+        <div style="font-size:20px;font-weight:800;color:#022B58;font-family:Verdana,sans-serif">621.257</div>
+        <div style="font-size:9.5px;color:#64748B;margin-top:1px">Hauptsitze, Filialen, Betriebe</div>
+      </div>
+      <div style="padding:12px 16px;border-right:1px solid #E2E8F0;text-align:center">
+        <div style="font-size:9.5px;color:#94A3B8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;font-weight:500">Personen gesamt</div>
+        <div style="font-size:20px;font-weight:800;color:#022B58;font-family:Verdana,sans-serif">2.557.279</div>
+        <div style="font-size:9.5px;color:#64748B;margin-top:1px">Für Marketingkampagnen erreichbar</div>
+      </div>
+      <div style="padding:12px 16px;text-align:center">
+        <div style="font-size:9.5px;color:#94A3B8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;font-weight:500">davon mit E-Mail</div>
+        <div style="font-size:20px;font-weight:800;color:#059669;font-family:Verdana,sans-serif">1.637.816</div>
+        <div style="font-size:9.5px;color:#64748B;margin-top:1px">DSGVO-konforme E-Mail-Adressen</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+      <div style="padding:12px 16px;border-right:1px solid #E2E8F0">
+        <div style="font-size:10px;font-weight:600;color:#022B58;margin-bottom:8px">🌍 Länderaufteilung (DACH)</div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:2px">
+              <span style="font-size:10.5px;color:#333;font-weight:500">🇩🇪 Deutschland</span>
+              <span style="font-size:10.5px;color:#022B58;font-weight:600">1.539.317 EM</span>
+            </div>
+            <div style="height:5px;background:#F1F5F9;border-radius:3px;overflow:hidden"><div style="height:100%;width:94%;background:linear-gradient(90deg,#0C7DEC,#2FADF4);border-radius:3px"></div></div>
+            <div style="font-size:9.5px;color:#94A3B8;margin-top:1px">569.828 Firmen · 2.332.502 Personen</div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:2px">
+              <span style="font-size:10.5px;color:#333;font-weight:500">🇨🇭 Schweiz</span>
+              <span style="font-size:10.5px;color:#022B58;font-weight:600">67.854 EM</span>
+            </div>
+            <div style="height:5px;background:#F1F5F9;border-radius:3px;overflow:hidden"><div style="height:100%;width:22%;background:linear-gradient(90deg,#165AA6,#0C7DEC);border-radius:3px"></div></div>
+            <div style="font-size:9.5px;color:#94A3B8;margin-top:1px">19.540 Firmen · 113.671 Personen</div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:2px">
+              <span style="font-size:10.5px;color:#333;font-weight:500">🇦🇹 Österreich</span>
+              <span style="font-size:10.5px;color:#022B58;font-weight:600">30.645 EM</span>
+            </div>
+            <div style="height:5px;background:#F1F5F9;border-radius:3px;overflow:hidden"><div style="height:100%;width:10%;background:linear-gradient(90deg,#165AA6,#0C7DEC);border-radius:3px"></div></div>
+            <div style="font-size:9.5px;color:#94A3B8;margin-top:1px">31.889 Firmen · 111.106 Personen</div>
+          </div>
+        </div>
+      </div>
+      <div style="padding:12px 16px">
+        <div style="font-size:10px;font-weight:600;color:#022B58;margin-bottom:8px">🏭 Top-Branchen (Personen %)</div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:10px;color:#333">C — Verarbeitendes Gewerbe</span><span style="font-size:10px;font-weight:700;color:#022B58">46,5 %</span></div>
+            <div style="height:4px;background:#F1F5F9;border-radius:2px;overflow:hidden"><div style="height:100%;width:46.5%;background:#0C7DEC;border-radius:2px"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:10px;color:#333">G — Handel & Kfz-Reparatur</span><span style="font-size:10px;font-weight:700;color:#022B58">39,0 %</span></div>
+            <div style="height:4px;background:#F1F5F9;border-radius:2px;overflow:hidden"><div style="height:100%;width:39%;background:#2FADF4;border-radius:2px"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:10px;color:#333">M — Freiberufl. / Techn. Dienste</span><span style="font-size:10px;font-weight:700;color:#022B58">29,1 %</span></div>
+            <div style="height:4px;background:#F1F5F9;border-radius:2px;overflow:hidden"><div style="height:100%;width:29.1%;background:#66CCBC;border-radius:2px"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:10px;color:#333">J — Information & Kommunikation</span><span style="font-size:10px;font-weight:700;color:#022B58">18,6 %</span></div>
+            <div style="height:4px;background:#F1F5F9;border-radius:2px;overflow:hidden"><div style="height:100%;width:18.6%;background:#165AA6;border-radius:2px"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:7px 16px;background:#F8FAFC;border-top:1px solid #E2E8F0;display:flex;align-items:center;gap:6px">
+      <span style="font-size:10px">ℹ️</span>
+      <span style="font-size:10px;color:#64748B">Vollabdeckung aller Firmen ab 20 MA in der DACH-Region · Mehrfachnennungen bei Branchen möglich</span>
+    </div>
   </div>
 
   <!-- INDIVIDUELL BAUKASTEN -->
@@ -610,9 +697,9 @@ function toggleBuilder(k){
   document.getElementById('cb-'+k).classList.toggle('on',builderState[k]);
   // show/hide variable sliders
   const s=builderState[k]?'flex':'none';
-  if(k==='leadgen'){document.getElementById('shared-sliders').style.display='block';document.getElementById('leadgen-row-shared').style.display=s;document.getElementById('row-cpl-r').style.display=s;}
+  if(k==='leadgen'){document.getElementById('shared-sliders').style.display='block';document.getElementById('leadgen-row-shared').style.display=s;document.getElementById('row-cpl-r').style.display=s;document.getElementById('mbdb-datenspiegel').style.display=(builderState.leadgen||builderState.email)?'block':'none';}
   if(k==='display'){document.getElementById('shared-sliders').style.display='block';document.getElementById('display-row-shared').style.display=s;}
-  if(k==='email'){document.getElementById('shared-sliders').style.display='block';document.getElementById('email-row-shared').style.display=s;}
+  if(k==='email'){document.getElementById('shared-sliders').style.display='block';document.getElementById('email-row-shared').style.display=s;document.getElementById('mbdb-datenspiegel').style.display=(builderState.leadgen||builderState.email)?'block':'none';}
   updateBuilderUI();
   calc();
 }
@@ -637,9 +724,9 @@ function toggleAddon(a){
   addonState[a]=!addonState[a];
   document.getElementById('ao-'+a).classList.toggle('on',addonState[a]);
   const s=addonState[a]?'':'none';
-  if(a==='leadgen'){document.getElementById('shared-sliders').style.display='block';document.getElementById('leadgen-row-shared').style.display=s;document.getElementById('row-cpl-r').style.display=s;}
+  if(a==='leadgen'){document.getElementById('shared-sliders').style.display='block';document.getElementById('leadgen-row-shared').style.display=s;document.getElementById('row-cpl-r').style.display=s;document.getElementById('mbdb-datenspiegel').style.display=(addonState.leadgen||addonState.email)?'block':'none';}
   if(a==='display'){document.getElementById('shared-sliders').style.display='block';document.getElementById('display-row-shared').style.display=s;}
-  if(a==='email'){document.getElementById('shared-sliders').style.display='block';document.getElementById('email-row-shared').style.display=s;}
+  if(a==='email'){document.getElementById('shared-sliders').style.display='block';document.getElementById('email-row-shared').style.display=s;document.getElementById('mbdb-datenspiegel').style.display=(addonState.leadgen||addonState.email)?'block':'none';}
   if(a==='webcast')document.getElementById('row-wc').style.display=s;
   calc();
 }
@@ -675,6 +762,8 @@ function resetAll(){
     const el=document.getElementById(id);
     if(el) el.style.display='none';
   });
+  const mbdb=document.getElementById('mbdb-datenspiegel');
+  if(mbdb) mbdb.style.display='none';
   const ss=document.getElementById('shared-sliders');
   if(ss) ss.style.display='none';
   ['leadgen-row','display-row','email-row','row-cpl-r'].forEach(id=>{
@@ -728,7 +817,7 @@ function startTutorial() {
 function endTutorial() {
   document.getElementById('tut-overlay').classList.remove('active');
   document.body.style.overflow = '';
-  try { if(typeof localStorage!=='undefined') localStorage.setItem('pur_tut_seen', '1'); } catch(e) {}
+  try { localStorage.setItem('pur_tut_seen', '1'); } catch(e) {}
 }
 
 function tutNext() {
@@ -812,7 +901,7 @@ function tutShow(idx) {
 // Auto-start on first visit
 window.addEventListener('load', () => {
   try {
-    if (typeof localStorage==='undefined' || !localStorage.getItem('pur_tut_seen')) {
+    if (!localStorage.getItem('pur_tut_seen')) {
       setTimeout(startTutorial, 800);
     }
   } catch(e) {}
@@ -1226,24 +1315,6 @@ async function exportPPTX(btn) {
   document.getElementById('spin-pptx').style.display='inline-block';
   document.getElementById('lbl-pptx').style.display='none';
 
-  // Lazy-load pptxgenjs only when needed (avoids blocking Teams/sandboxed environments)
-  if (typeof PptxGenJS === 'undefined') {
-    try {
-      await new Promise((resolve, reject) => {
-        const s = document.createElement('script');
-        s.src = 'https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js';
-        s.onload = resolve;
-        s.onerror = reject;
-        document.head.appendChild(s);
-      });
-    } catch(e) {
-      alert('PPTX-Export: Bibliothek konnte nicht geladen werden. Bitte prüfe deine Internetverbindung.');
-      document.getElementById('spin-pptx').style.display='none';
-      document.getElementById('lbl-pptx').style.display='inline';
-      return;
-    }
-  }
-
   try {
     const pres = new PptxGenJS();
     pres.layout = 'LAYOUT_16x9';
@@ -1504,7 +1575,7 @@ function startTutorial() {
 function endTutorial() {
   document.getElementById('tut-overlay').classList.remove('active');
   document.body.style.overflow = '';
-  try { if(typeof localStorage!=='undefined') localStorage.setItem('pur_tut_seen', '1'); } catch(e) {}
+  try { localStorage.setItem('pur_tut_seen', '1'); } catch(e) {}
 }
 
 function tutNext() {
@@ -1588,7 +1659,7 @@ function tutShow(idx) {
 // Auto-start on first visit
 window.addEventListener('load', () => {
   try {
-    if (typeof localStorage==='undefined' || !localStorage.getItem('pur_tut_seen')) {
+    if (!localStorage.getItem('pur_tut_seen')) {
       setTimeout(startTutorial, 800);
     }
   } catch(e) {}
