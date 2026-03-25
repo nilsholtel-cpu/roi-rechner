@@ -27,11 +27,11 @@
 #tut-overlay.active{display:block}
 #tut-backdrop{position:absolute;inset:0;background:rgba(2,43,88,.72);transition:all .3s}
 #tut-spotlight{position:absolute;border-radius:10px;box-shadow:0 0 0 4000px rgba(2,43,88,.72);border:2.5px solid #0C7DEC;transition:all .35s cubic-bezier(.4,0,.2,1);pointer-events:none}
-#tut-card{position:absolute;background:#fff;border-radius:14px;padding:20px 22px 16px;width:320px;box-shadow:0 8px 40px rgba(0,0,0,.35);pointer-events:all;transition:all .35s cubic-bezier(.4,0,.2,1)}
+#tut-card{position:absolute;background:#fff;border-radius:14px;padding:20px 22px 16px;width:340px;max-height:380px;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.35);pointer-events:all;transition:all .35s cubic-bezier(.4,0,.2,1)}
 #tut-card::before{content:'';position:absolute;width:14px;height:14px;background:#fff;transform:rotate(45deg)}
 .tut-step-label{font-size:10px;font-weight:600;color:#0C7DEC;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
 .tut-title{font-size:14px;font-weight:700;color:#022B58;font-family:Verdana,sans-serif;margin-bottom:7px}
-.tut-text{font-size:12px;color:#333;line-height:1.6;margin-bottom:14px}
+.tut-text{font-size:11.5px;color:#333;line-height:1.65;margin-bottom:14px;white-space:normal}
 .tut-actions{display:flex;align-items:center;justify-content:space-between}
 .tut-dots{display:flex;gap:5px}
 .tut-dot{width:7px;height:7px;border-radius:50%;background:#E0E0E0;transition:background .2s}
@@ -40,6 +40,17 @@
 .tut-next:hover{background:#165AA6}
 .tut-skip{font-size:11px;color:#94A3B8;cursor:pointer;text-decoration:underline}
 .tut-skip:hover{color:#64748B}
+
+/* ── ? Help Flyout ── */
+.help-btn{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:#E0EDFF;border:1.5px solid #93C5FD;color:#165AA6;font-size:10px;font-weight:700;cursor:pointer;flex-shrink:0;transition:all .15s;margin-left:6px;line-height:1;user-select:none}
+.help-btn:hover{background:#165AA6;color:#fff;border-color:#165AA6}
+.help-flyout{display:none;position:absolute;z-index:800;background:#022B58;border:1.5px solid #0C7DEC;border-radius:12px;padding:14px 16px;width:290px;box-shadow:0 8px 32px rgba(2,43,88,.45);pointer-events:all}
+.help-flyout.open{display:block}
+.help-flyout-title{font-size:11px;font-weight:700;color:#ACDDFA;font-family:Verdana,sans-serif;margin-bottom:7px;display:flex;align-items:center;gap:6px}
+.help-flyout-body{font-size:11px;color:#CBD5E1;line-height:1.65}
+.help-flyout-close{position:absolute;top:8px;right:10px;font-size:14px;color:#475569;cursor:pointer;line-height:1}
+.help-flyout-close:hover{color:#ACDDFA}
+.help-wrap{position:relative;display:inline-block}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 <style>
@@ -376,6 +387,14 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
       <div class="card-header">
         <div class="card-icon" style="background:#EBF4FF">📋</div>
         <div><div class="card-title">Paketinhalt</div><div class="card-sub">Ausgewählte Leistungen</div></div>
+        <div class="card-header-right">
+          <div class="help-wrap"><span class="help-btn" id="hbtn-contents" onclick="toggleHelp('contents')">?</span>
+          <div class="help-flyout" id="hfly-contents">
+            <span class="help-flyout-close" onclick="closeHelp('contents')">✕</span>
+            <div class="help-flyout-title">📋 Paketinhalt</div>
+            <div class="help-flyout-body">Dieser Block zeigt dir live alle Leistungen, die im gewählten Paket enthalten sind — inklusive aktiver Add-ons.<br><br>Jede Leistung ist farblich dem zugehörigen ROI-Typ zugeordnet: <b style="color:#6EE7B7">Revenue</b>, <b style="color:#93C5FD">Reichweite</b> oder <b style="color:#C4B5FD">Effizienz</b>.<br><br>Beim Wechsel des Pakets oder Aktivieren von Add-ons aktualisiert sich die Liste automatisch.</div>
+          </div></div>
+        </div>
       </div>
       <div id="contents-list" style="display:flex;flex-direction:column;gap:4px;min-height:40px">
         <div id="contents-empty" style="font-size:11px;color:#94A3B8;padding:8px 0">Noch keine Leistungen geladen.</div>
@@ -387,6 +406,14 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
       <div class="card-header">
         <div class="card-icon" style="background:#DCFCE7">📈</div>
         <div><div class="card-title">1 — Revenue ROI</div><div class="card-sub">Leads, Deals, Umsatz</div></div>
+        <div class="card-header-right">
+          <div class="help-wrap"><span class="help-btn" id="hbtn-revenue" onclick="toggleHelp('revenue')">?</span>
+          <div class="help-flyout" id="hfly-revenue">
+            <span class="help-flyout-close" onclick="closeHelp('revenue')">✕</span>
+            <div class="help-flyout-title">📈 Revenue ROI</div>
+            <div class="help-flyout-body">Der Revenue ROI zeigt, welcher Umsatz durch die generierten Leads realistisch erzielbar ist.<br><br><b style="color:#ACDDFA">Rechenweg:</b> MQL (qualifizierte Leads) → Opportunities (Lead-to-Opp-Rate) → Deals (Close-Rate + PUR-Badge-Boost) × Ø Deal-Wert.<br><br><b style="color:#ACDDFA">Badge-Boost:</b> Der PUR-Champion-Status wirkt als Vertrauenssignal im Sales-Prozess und erhöht die Close-Rate nachweislich um ~5%. Dieser Mehrwert wird separat ausgewiesen.<br><br><b style="color:#ACDDFA">Netto-ROI:</b> Abzüglich typischer Sales-Kosten (MQL-Bearbeitung + Deal-Aufwand) — konservative Kalkulation.</div>
+          </div></div>
+        </div>
       </div>
       <div class="sl-row"><label>Ø Deal-Wert (€)</label><input type="range" id="sl-dv" min="5000" max="200000" step="1000" value="30000" oninput="calc()"><span class="val" id="out-dv">30.000 €</span></div>
       <div class="sl-row"><label>Lead → Opportunity (%)</label><input type="range" id="sl-l2o" min="5" max="60" step="1" value="20" oninput="calc()"><span class="val" id="out-l2o">20 %</span></div>
@@ -422,6 +449,14 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
       <div class="card-header">
         <div class="card-icon" style="background:#EDE9FE">📡</div>
         <div><div class="card-title">1 — Intent Data ROI</div><div class="card-sub">Kaltakquise-Effizienz & Kosteneinsparung</div></div>
+        <div class="card-header-right">
+          <div class="help-wrap"><span class="help-btn" id="hbtn-intent-roi" onclick="toggleHelp('intent-roi')">?</span>
+          <div class="help-flyout" id="hfly-intent-roi">
+            <span class="help-flyout-close" onclick="closeHelp('intent-roi')">✕</span>
+            <div class="help-flyout-title">📡 Intent Data ROI</div>
+            <div class="help-flyout-body">Intent Data zeigt in Echtzeit, welche Unternehmen aktiv nach Lösungen in deinem Segment suchen — über das ReachIT-Dashboard.<br><br><b style="color:#ACDDFA">Kein direkter Revenue-ROI</b>, da keine MQL geliefert werden. Der Mehrwert liegt in der Effizienzsteigerung der eigenen Kaltakquise:<br><br>• <b>Zeitersparnis:</b> Priorisierung der heißesten Accounts spart ~30% Rechercheaufwand pro Kontakt<br>• <b>Kosteneinsparung:</b> Fokus auf kaufbereite Accounts senkt den effektiven Kosten-pro-Kontakt um ~25%<br>• <b>Reply-Rate-Boost:</b> +10% mehr Antworten dank passendem Timing (Richtwert, fix)<br><br>Alle Inputs basieren auf den kundenseitigen Kaltakquise-Kennzahlen.</div>
+          </div></div>
+        </div>
       </div>
       <div class="hint hint-orange" style="margin-bottom:14px">Intent Data liefert keinen direkten Revenue-ROI. Der Mehrwert entsteht durch höhere Kaltakquise-Effizienz: weniger Kosten, weniger Zeitaufwand, höhere Reply-Rate.</div>
       <div class="sl-row"><label>Identifizierte Intent-Accounts / Monat</label><input type="range" id="sl-intent-accounts" min="10" max="500" step="10" value="100" oninput="calc()"><span class="val" id="out-intent-accounts">100</span></div>
@@ -452,7 +487,13 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
       <div class="card-header">
         <div class="card-icon" style="background:#DBEAFE">🔭</div>
         <div><div class="card-title">2 — Reichweite ROI</div><div class="card-sub">Reichweite & Intent</div></div>
-        <div class="card-header-right">
+        <div class="card-header-right" style="display:flex;align-items:center;gap:6px">
+          <div class="help-wrap"><span class="help-btn" id="hbtn-visibility" onclick="toggleHelp('visibility')">?</span>
+          <div class="help-flyout" id="hfly-visibility" style="right:0;left:auto">
+            <span class="help-flyout-close" onclick="closeHelp('visibility')">✕</span>
+            <div class="help-flyout-title">🔭 Reichweite ROI</div>
+            <div class="help-flyout-body">Dieser Block quantifiziert den Markenwert durch Sichtbarkeit im heise-Netzwerk — unabhängig von direkten Leads.<br><br><b style="color:#ACDDFA">Impressions:</b> Wie oft erscheint dein Content auf heise.de? Jeder Klick ist ein qualifizierter IT-Entscheider.<br><br><b style="color:#ACDDFA">Intent-Accounts:</b> Unternehmen, die aktiv kaufrelevante Inhalte konsumieren — erkennbar über das ReachIT-Dashboard. Diese werden mit einer Quote in monetäre Outreach-Anlässe umgerechnet (Ø 25% des Deal-Werts als Äquivalent).<br><br>Der Toggle oben rechts blendet diesen Block ein/aus — z.B. für konservative Präsentationen.</div>
+          </div></div>
           <label class="section-toggle" title="Bereich ein-/ausblenden">
             <input type="checkbox" id="tog-visibility" checked onchange="toggleSection('visibility')">
             <span class="toggle-track"></span>
@@ -479,7 +520,13 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
       <div class="card-header">
         <div class="card-icon" style="background:#EDE9FE">⚡</div>
         <div><div class="card-title">3 — Einsparungen</div><div class="card-sub">Marktforschung & Content</div></div>
-        <div class="card-header-right">
+        <div class="card-header-right" style="display:flex;align-items:center;gap:6px">
+          <div class="help-wrap"><span class="help-btn" id="hbtn-efficiency" onclick="toggleHelp('efficiency')">?</span>
+          <div class="help-flyout" id="hfly-efficiency" style="right:0;left:auto">
+            <span class="help-flyout-close" onclick="closeHelp('efficiency')">✕</span>
+            <div class="help-flyout-title">⚡ Einsparungen</div>
+            <div class="help-flyout-body">Dieser Block berechnet, was du dir <em>sparst</em> — im Vergleich zur Eigenproduktion.<br><br><b style="color:#ACDDFA">Marktforschungsersparnis:</b> Wie viele Tage würde das eigene Team für vergleichbare Marktforschung benötigen? Multipliziert mit dem internen Tagessatz ergibt das den vermiedenen Aufwand.<br><br><b style="color:#ACDDFA">Content-Asset-Ersparnis:</b> Das PUR-Material (Grafiken, Texte, Benchmark-Daten) dient als Vorlage für eigene Assets. Wie viele würdest du erstellen? Jede gesparte Produktionszeit ist barer Mehrwert.<br><br>Richtwert: 8 Assets à 1,5 Tage = 12 Tage = 7.200 € bei 600 €/Tag.</div>
+          </div></div>
           <label class="section-toggle" title="Bereich ein-/ausblenden">
             <input type="checkbox" id="tog-efficiency" checked onchange="toggleSection('efficiency')">
             <span class="toggle-track"></span>
@@ -503,6 +550,14 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
       <div class="card-header">
         <div class="card-icon" style="background:#EDE9FE">🏅</div>
         <div><div class="card-title">Badge-Boost-Potenzial</div><div class="card-sub">Hypothetischer Mehrwert durch Close-Rate-Verbesserung</div></div>
+        <div class="card-header-right">
+          <div class="help-wrap"><span class="help-btn" id="hbtn-badge-boost" onclick="toggleHelp('badge-boost')">?</span>
+          <div class="help-flyout" id="hfly-badge-boost" style="right:0;left:auto">
+            <span class="help-flyout-close" onclick="closeHelp('badge-boost')">✕</span>
+            <div class="help-flyout-title">🏅 Badge-Boost-Potenzial</div>
+            <div class="help-flyout-body">Das Basic-Paket enthält keine MQL — es gibt also keinen klassischen Revenue-ROI über eine Lead-Pipeline. Trotzdem hat der PUR-Champion-Titel einen messbaren Vertriebseffekt.<br><br><b style="color:#ACDDFA">Warum wirkt der Badge?</b> Der Titel funktioniert als unabhängiges Gütesiegel von techconsult — einem anerkannten Analystenhaus. Im B2B-Entscheidungsprozess reduziert das Risiko und erhöht das Vertrauen. Das wirkt sich nachweislich auf die Close-Rate aus.<br><br><b style="color:#ACDDFA">Richtwert +5%:</b> Basiert auf Benchmarks aus vergleichbaren B2B-Zertifizierungsstudien. Als konservativer Ansatz fixiert.<br><br><b style="color:#ACDDFA">Rechenweg:</b> Laufende Deals pro Quartal × +5% × Ø Deal-Wert = zusätzlicher Umsatz pro Quartal. Hochgerechnet auf 4 Quartale = Jahrespotenzial.</div>
+          </div></div>
+        </div>
       </div>
       <div class="hint hint-orange" style="margin-bottom:14px">Das Basic-Paket enthält keinen Revenue-ROI über MQL. Der Badge (Urkunde + Diamant-Grafik) kann jedoch nachweislich die Close-Rate steigern. Dieses Panel zeigt das hypothetische Potenzial — auf Basis der kundenseitigen Kennzahlen.</div>
       <div class="sl-row"><label>Ø Deal-Wert (€)</label><input type="range" id="sl-dv-basic" min="5000" max="200000" step="1000" value="30000" oninput="calc()"><span class="val" id="out-dv-basic">30.000 €</span></div>
@@ -525,6 +580,14 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
       <div class="card-header">
         <div class="card-icon" style="background:#FFF7ED">📈</div>
         <div><div class="card-title">Opportunitätskosten-Vergleich</div><div class="card-sub">Basic vs. externe Studie</div></div>
+        <div class="card-header-right">
+          <div class="help-wrap"><span class="help-btn" id="hbtn-basic-opp" onclick="toggleHelp('basic-opp')">?</span>
+          <div class="help-flyout" id="hfly-basic-opp" style="right:0;left:auto">
+            <span class="help-flyout-close" onclick="closeHelp('basic-opp')">✕</span>
+            <div class="help-flyout-title">📈 Opportunitätskosten-Vergleich</div>
+            <div class="help-flyout-body">Dieser Block stellt die Frage: <em>Was würde dieselbe Information kosten, wenn du sie selbst beschaffen müsstest?</em><br><br><b style="color:#ACDDFA">Vergleichswert ~27.500 €:</b> Eine selbst initiierte Auftragsstudie zur Kundenzufriedenheit im Wettbewerbsvergleich kostet erfahrungsgemäß 25.000–30.000 €. Mitte: 27.500 €.<br><br><b style="color:#ACDDFA">Opportunitätskosten-Ersparnis:</b> Differenz zwischen diesem Marktpreis und dem Basic-Invest von 12.900 €. Dieser Wert ist <em>fix</em> — er verändert sich nicht durch Add-ons, weil er rein den Vergleich mit der Eigenstudie abbildet.<br><br><b style="color:#ACDDFA">Gesamter Mehrwert:</b> Opportunitätsersparnis + Effizienz-Einsparungen (Marktforschung + Content). Das ist der vollständige ROI-Nachweis des Basic-Pakets.</div>
+          </div></div>
+        </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:8px">
         <div class="res-row"><span class="rl">Selbst initiierte Auftragsstudie zur Kundenzufriedenheit im Wettbewerbsvergleich</span><span class="rv" style="color:#9A3412">~27.500 €</span></div>
@@ -544,9 +607,17 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
   </div>
 
   <!-- Gesamt-ROI Box -->
-  <div class="total-box">
-    <div>
-      <div class="total-label" id="t-label">Gesamt-ROI (Revenue + Einsparungen + Reichweite)</div>
+  <div class="total-box" id="total-box">
+    <div style="flex:1">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="total-label" id="t-label">Gesamt-ROI (Revenue + Einsparungen + Reichweite)</div>
+        <div class="help-wrap"><span class="help-btn" id="hbtn-total" onclick="toggleHelp('total')" style="background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.4);color:#fff">?</span>
+        <div class="help-flyout" id="hfly-total" style="bottom:110%;top:auto;left:0">
+          <span class="help-flyout-close" onclick="closeHelp('total')">✕</span>
+          <div class="help-flyout-title">📊 Gesamt-ROI</div>
+          <div class="help-flyout-body">Der Gesamt-ROI addiert alle aktiven ROI-Komponenten und setzt sie ins Verhältnis zur Gesamtinvestition.<br><br><b style="color:#ACDDFA">Netto-ROI:</b> Nach Abzug typischer Sales-Kosten (MQL-Bearbeitung + Deal-Aufwand). Zeigt den realistisch verbleibenden Mehrwert.<br><br><b style="color:#ACDDFA">Mehrwert-Zeile:</b> Der absolute Euro-Betrag über dem Invest — das ist der Betrag, der den Einsatz rechtfertigt.<br><br><b style="color:#ACDDFA">Basic-Paket:</b> ROI basiert auf Opportunitätskosten-Ersparnis + Effizienz-Einsparungen (kein MQL-Revenue).<br><br>Alle Werte sind konservativ kalkuliert — auf Basis von Branchen-Benchmarks.</div>
+        </div></div>
+      </div>
       <div class="total-sub" id="t-sub">—</div>
     </div>
     <div style="display:flex;gap:28px;align-items:flex-end">
@@ -1374,37 +1445,154 @@ function exportPDF(btn) {
   },120);
 }
 
-// ── Tutorial ──────────────────────────────────────────────────────────────
-const TUT_STEPS = [
-  {
-    target: '.pkg-row',
-    title: 'Paket wählen',
-    text: 'Wähle zuerst das passende Paket: Basic (Vermarktungsrecht + Effizienz-ROI), Medium (20 MQL oder Intent Data) oder Advanced (50 MQL On-Demand Webcast). Das Paket bestimmt die Berechnungslogik.',
-    arrow: 'bottom'
-  },
-  {
-    target: '#card-contents',
-    title: 'Paketinhalt im Überblick',
-    text: 'Hier siehst du live alle enthaltenen Leistungen des gewählten Pakets.',
-    arrow: 'right'
-  },
-  {
-    target: '#card-revenue',
-    title: 'Parameter anpassen',
-    text: 'Passe die Slider auf den Kunden an: Ø Deal-Wert, Lead- und Close-Raten. Der Close-Rate-Boost durch den PUR-Badge ist auf 5% als Richtwert fixiert und wird separat ausgewiesen.',
-    arrow: 'left'
-  },
-  {
-    target: '.total-box',
-    title: 'Ergebnis & Export',
-    text: 'Der Gesamt-ROI fasst alle Komponenten zusammen. Über die Buttons oben rechts kannst du die Kalkulation als PDF oder PPTX exportieren.',
-    arrow: 'top'
+// ── Help Flyout System ────────────────────────────────────────────────────
+let openFlyout = null;
+
+function toggleHelp(id) {
+  const fly = document.getElementById('hfly-' + id);
+  if (!fly) return;
+  if (openFlyout && openFlyout !== fly) {
+    openFlyout.classList.remove('open');
   }
-];
+  fly.classList.toggle('open');
+  openFlyout = fly.classList.contains('open') ? fly : null;
+}
+
+function closeHelp(id) {
+  const fly = document.getElementById('hfly-' + id);
+  if (fly) fly.classList.remove('open');
+  if (openFlyout === fly) openFlyout = null;
+}
+
+// Close flyout when clicking outside
+document.addEventListener('click', function(e) {
+  if (openFlyout && !e.target.closest('.help-wrap')) {
+    openFlyout.classList.remove('open');
+    openFlyout = null;
+  }
+});
+
+// ── Tutorial ──────────────────────────────────────────────────────────────
+function getTutSteps() {
+  const isBasic = currentPkg === 'basic';
+  const isAdvanced = currentPkg === 'advanced';
+  const isIntentMode = currentPkg === 'medium' && mediumMode === 'intent';
+  const isMqlMode = currentPkg === 'medium' && mediumMode === 'mql';
+
+  const steps = [];
+
+  // Step 1: Paket wählen
+  steps.push({
+    target: '.pkg-row',
+    title: 'Schritt 1 — Paket wählen',
+    text: 'Wähle hier das passende Paket für deinen Kunden. Jedes Paket hat eine andere Berechnungslogik:\n\n• Basic (12.900 €): Effizienz-ROI + Opportunitätskosten-Vergleich + Badge-Boost-Potenzial\n• Medium (16.900 €): 20 MQL oder Intent Data — du wählst die Ausrichtung\n• Advanced (24.900 €): 50 MQL via Webcast + alle Medium-Leistungen',
+    arrow: 'bottom'
+  });
+
+  // Step 2: Medium-Modus Auswahl (nur Medium)
+  if (isMqlMode || isIntentMode) {
+    steps.push({
+      target: '#medium-mode-section',
+      title: 'Schritt 2 — Paketausrichtung',
+      text: isIntentMode
+        ? 'Du hast Intent Data gewählt. Das bedeutet: keine direkten MQL, aber dafür Echtzeit-Signale kaufbereiter Accounts. Der ROI wird über Kaltakquise-Effizienz und Kosteneinsparung berechnet — nicht über eine Lead-Pipeline.'
+        : 'Du hast 20 MQL gewählt. Diese Leads werden direkt aus dem Paket geliefert — qualifizierte DACH-IT-Entscheider. Der ROI folgt der klassischen Pipeline: MQL → Opportunity → Deal → Umsatz.',
+      arrow: 'bottom'
+    });
+  }
+
+  // Step 3: Paketinhalt
+  steps.push({
+    target: '#card-contents',
+    title: isBasic ? 'Schritt 2 — Paketinhalt Basic' : 'Schritt 3 — Paketinhalt',
+    text: 'Hier siehst du live alle enthaltenen Leistungen. Beim Wechsel des Pakets oder Aktivieren von Add-ons aktualisiert sich die Liste sofort.\n\nJede Leistung trägt zu einer der drei ROI-Kategorien bei: Revenue, Reichweite oder Effizienz — farblich unterschieden.',
+    arrow: 'right'
+  });
+
+  // Step 4: Revenue ROI (nur MQL-Pakete)
+  if (!isBasic && !isIntentMode) {
+    steps.push({
+      target: '#card-revenue',
+      title: 'Schritt 4 — Revenue ROI',
+      text: 'Passe die Slider auf deinen Kunden an:\n\n• Ø Deal-Wert: Typischer Vertragswert eines gewonnenen Deals\n• Lead → Opp.: Wie viele MQL werden zu echten Opportunities?\n• Opp. → Close: Aktuelle Abschlussrate\n\nDer PUR-Badge-Boost (+5%) ist fix — er zeigt, wie viele Zusatz-Deals allein durch den Champion-Status entstehen. Dieser Mehrwert wird separat hervorgehoben.',
+      arrow: 'left'
+    });
+  }
+
+  // Step 5: Intent Data ROI (nur Intent-Modus)
+  if (isIntentMode) {
+    steps.push({
+      target: '#card-intent-roi',
+      title: 'Schritt 4 — Intent Data ROI',
+      text: 'Hier gibst du die kundenseitigen Kaltakquise-Kennzahlen ein:\n\n• Wie viele Intent-Accounts werden monatlich identifiziert?\n• Was kostet ein Kaltakquise-Kontakt heute?\n• Wie viel Zeit investiert dein Team pro Kontakt?\n\nDer Rechner zeigt, wie viel Zeit und Kosten durch gezielte Intent-Priorisierung eingespart werden. Der Reply-Rate-Boost von +10% ist als konservativer Richtwert fixiert.',
+      arrow: 'left'
+    });
+  }
+
+  // Step 6: Badge-Boost (nur Basic)
+  if (isBasic) {
+    steps.push({
+      target: '#card-badge-boost',
+      title: 'Schritt 3 — Badge-Boost-Potenzial',
+      text: 'Das Basic-Paket liefert keine MQL — aber der PUR-Champion-Badge wirkt trotzdem im Vertrieb.\n\nDieses Panel zeigt das hypothetische Potenzial: Wie viele Zusatz-Deals entstehen, wenn die Close-Rate um 5% steigt?\n\nGib einfach ein, wie viele Deals dein Kunde pro Quartal führt und was ein Ø Deal wert ist — der Rest rechnet sich automatisch.',
+      arrow: 'right'
+    });
+  }
+
+  // Step 7: Opportunitätskosten (Basic)
+  if (isBasic) {
+    steps.push({
+      target: '#card-basic-opp',
+      title: 'Schritt 4 — Opportunitätskosten-Vergleich',
+      text: 'Ein starkes Argument im Kundengespräch: Was würde dieselbe Information in Eigenregie kosten?\n\nEine selbst initiierte Auftragsstudie zur Kundenzufriedenheit im Wettbewerbsvergleich kostet 25.000–30.000 € am Markt. Das Basic-Paket liefert vergleichbare Erkenntnisse für 12.900 €.\n\nDie Ersparnis ist fix — sie ändert sich nicht, denn sie bildet nur den Vergleich mit der Eigenstudie ab.',
+      arrow: 'left'
+    });
+  }
+
+  // Step 8: Reichweite ROI (nicht Basic)
+  if (!isBasic) {
+    steps.push({
+      target: '#card-visibility',
+      title: isIntentMode ? 'Schritt 5 — Reichweite ROI' : 'Schritt 5 — Reichweite ROI',
+      text: 'Dieser Block zeigt die Markenwirkung über heise.de:\n\n• Impressions: Wie oft erscheint dein Content im heise-Netzwerk?\n• CTR → Besucher: Klickrate auf Artikel ergibt qualifizierte Website-Besucher\n• Intent-Accounts: Kaufbereite Unternehmen, erkennbar über das ReachIT-Dashboard\n\nDas monetäre Äquivalent berechnet den Wert warmer Outreach-Anlässe (25% des Ø Deal-Werts pro qualifiziertem Account).',
+      arrow: 'right'
+    });
+  }
+
+  // Step 9: Einsparungen
+  steps.push({
+    target: '#card-efficiency',
+    title: 'Schritt 6 — Einsparungen',
+    text: 'Hier wird der Effizienz-ROI berechnet — was sparst du dir gegenüber Eigenproduktion?\n\n• Marktforschungsaufwand: Wie viele Tage würde das eigene Team für vergleichbare Recherche benötigen?\n• Content-Assets: Das PUR-Material dient als Vorlage — wie viele eigene Assets entstehen daraus?\n• Tagessatz: Interner Kostensatz des zuständigen Marketing-Mitarbeiters\n\nBeispiel: 10 Tage Forschung + 8 Assets à 1,5 Tage × 600 €/Tag = 13.200 € Ersparnis.',
+    arrow: isBasic ? 'right' : 'left'
+  });
+
+  // Step 10: Add-ons (Medium/Advanced)
+  if (!isBasic) {
+    steps.push({
+      target: '#addon-section',
+      title: 'Schritt 7 — Add-ons',
+      text: 'Über Add-ons lässt sich das Paket erweitern:\n\n• On-Demand Webcast: +50 MQL via Video-Download-Tracking\n• Leadgenerierung: Variable Anzahl MQL (CPL-Modell, 150 €/Lead)\n• Display Ads: Mehr Impressions im heise-Netzwerk (TKP-Basis)\n• E-Mail-Reichweite: Direktansprache IT-Entscheider (400 €/TKP)\n\nJedes aktivierte Add-on erhöht die Investition und den berechneten ROI automatisch.',
+      arrow: 'bottom'
+    });
+  }
+
+  // Step 11: Gesamt-ROI
+  steps.push({
+    target: '#total-box',
+    title: 'Schritt ' + (steps.length + 1) + ' — Gesamt-ROI & Export',
+    text: 'Hier läuft alles zusammen. Der Netto-ROI zeigt den Gesamt-Mehrwert nach Sales-Kosten im Verhältnis zur Investition.\n\nDer Mehrwert-Betrag zeigt in Euro, was der Kunde über den Invest hinaus gewinnt.\n\nÜber die Buttons oben rechts (PDF / PPTX) kannst du die fertige Kalkulation für den Kunden exportieren — mit allen Parametern und einer sauberen techconsult-Gestaltung.',
+    arrow: 'top'
+  });
+
+  return steps;
+}
 
 let tutStep = 0;
+let tutSteps = [];
 
 function startTutorial() {
+  tutSteps = getTutSteps();
   tutStep = 0;
   document.getElementById('tut-overlay').classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -1418,7 +1606,7 @@ function endTutorial() {
 }
 
 function tutNext() {
-  if (tutStep < TUT_STEPS.length - 1) {
+  if (tutStep < tutSteps.length - 1) {
     tutStep++;
     tutShow(tutStep);
   } else {
@@ -1427,11 +1615,13 @@ function tutNext() {
 }
 
 function tutShow(idx) {
-  const step = TUT_STEPS[idx];
-  const total = TUT_STEPS.length;
+  const step = tutSteps[idx];
+  const total = tutSteps.length;
+
   document.getElementById('tut-step-label').textContent = 'Schritt ' + (idx+1) + ' von ' + total;
   document.getElementById('tut-title').textContent = step.title;
-  document.getElementById('tut-text').textContent = step.text;
+  // Render newlines as <br>
+  document.getElementById('tut-text').innerHTML = step.text.replace(/\n/g, '<br>');
   document.getElementById('tut-next-btn').textContent = idx === total-1 ? 'Fertig ✓' : 'Weiter →';
 
   const dots = document.getElementById('tut-dots');
@@ -1443,7 +1633,12 @@ function tutShow(idx) {
   }
 
   const el = document.querySelector(step.target);
-  if (!el) return;
+  if (!el || el.style.display === 'none') {
+    // skip hidden steps
+    if (idx < total - 1) { tutStep++; tutShow(tutStep); }
+    else { endTutorial(); }
+    return;
+  }
   el.scrollIntoView({behavior: 'smooth', block: 'center'});
 
   setTimeout(() => {
@@ -1451,12 +1646,12 @@ function tutShow(idx) {
     const pad = 10;
     const spot = document.getElementById('tut-spotlight');
     spot.style.left   = (r.left - pad) + 'px';
-    spot.style.top    = (r.top  - pad) + 'px';
+    spot.style.top    = (r.top  - pad + window.scrollY) + 'px';
     spot.style.width  = (r.width  + pad*2) + 'px';
     spot.style.height = (r.height + pad*2) + 'px';
 
     const card = document.getElementById('tut-card');
-    const cw = 320, ch = 180, vw = window.innerWidth, vh = window.innerHeight;
+    const cw = 340, ch = 260, vw = window.innerWidth, vh = window.innerHeight;
     let cx, cy;
     const arrow = step.arrow;
 
@@ -1480,6 +1675,7 @@ function tutShow(idx) {
 
     card.style.left = Math.max(12, cx) + 'px';
     card.style.top  = Math.max(12, cy) + 'px';
+    card.style.width = cw + 'px';
   }, 320);
 }
 
