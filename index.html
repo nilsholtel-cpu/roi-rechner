@@ -44,7 +44,8 @@
 /* ── ? Help Flyout ── */
 .help-btn{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:#E0EDFF;border:1.5px solid #93C5FD;color:#165AA6;font-size:10px;font-weight:700;cursor:pointer;flex-shrink:0;transition:all .15s;margin-left:6px;line-height:1;user-select:none}
 .help-btn:hover{background:#165AA6;color:#fff;border-color:#165AA6}
-.help-flyout{display:none;position:absolute;z-index:800;background:#022B58;border:1.5px solid #0C7DEC;border-radius:12px;padding:14px 16px;width:290px;box-shadow:0 8px 32px rgba(2,43,88,.45);pointer-events:all}
+.help-flyout{display:none;position:absolute;z-index:1200;top:28px;left:0;background:#022B58;border:1.5px solid #0C7DEC;border-radius:12px;padding:14px 16px;width:300px;box-shadow:0 8px 32px rgba(2,43,88,.55);pointer-events:all}
+.help-flyout.right{left:auto;right:0}
 .help-flyout.open{display:block}
 .help-flyout-title{font-size:11px;font-weight:700;color:#ACDDFA;font-family:Verdana,sans-serif;margin-bottom:7px;display:flex;align-items:center;gap:6px}
 .help-flyout-body{font-size:11px;color:#CBD5E1;line-height:1.65}
@@ -106,8 +107,8 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
 .met-v.green{color:#059669}.met-v.blue{color:#0C7DEC}.met-v.purple{color:#7C3AED}.met-v.teal{color:#0F766E}
 
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-.card{background:#fff;border-radius:12px;border:1px solid #E2E8F0;padding:18px}
-.card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #ACDDFA}
+.card{background:#fff;border-radius:12px;border:1px solid #E2E8F0;padding:18px;overflow:visible}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #ACDDFA;position:relative;overflow:visible}
 .card-header-right{margin-left:auto}
 .card-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
 .card-title{font-size:13px;font-weight:700;color:#022B58;font-family:Verdana,sans-serif}
@@ -489,7 +490,7 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
         <div><div class="card-title">2 — Reichweite ROI</div><div class="card-sub">Reichweite & Intent</div></div>
         <div class="card-header-right" style="display:flex;align-items:center;gap:6px">
           <div class="help-wrap"><span class="help-btn" id="hbtn-visibility" onclick="toggleHelp('visibility')">?</span>
-          <div class="help-flyout" id="hfly-visibility" style="right:0;left:auto">
+          <div class="help-flyout right" id="hfly-visibility">
             <span class="help-flyout-close" onclick="closeHelp('visibility')">✕</span>
             <div class="help-flyout-title">🔭 Reichweite ROI</div>
             <div class="help-flyout-body">Dieser Block quantifiziert den Markenwert durch Sichtbarkeit im heise-Netzwerk — unabhängig von direkten Leads.<br><br><b style="color:#ACDDFA">Impressions:</b> Wie oft erscheint dein Content auf heise.de? Jeder Klick ist ein qualifizierter IT-Entscheider.<br><br><b style="color:#ACDDFA">Intent-Accounts:</b> Unternehmen, die aktiv kaufrelevante Inhalte konsumieren — erkennbar über das ReachIT-Dashboard. Diese werden mit einer Quote in monetäre Outreach-Anlässe umgerechnet (Ø 25% des Deal-Werts als Äquivalent).<br><br>Der Toggle oben rechts blendet diesen Block ein/aus — z.B. für konservative Präsentationen.</div>
@@ -503,15 +504,15 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
       <div id="body-visibility">
         <div class="sl-row"><label>Impressions heise.de</label><input type="range" id="sl-imp" min="20000" max="200000" step="5000" value="50000" oninput="calc()"><span class="val" id="out-imp">50.000</span></div>
         <div class="sl-row"><label>CTR Artikel (%)</label><input type="range" id="sl-ctr" min="0.5" max="5" step="0.1" value="1.5" oninput="calc()"><span class="val" id="out-ctr">1,5 %</span></div>
-        <div class="sl-row"><label>Intent-Accounts (kaufbereit)</label><input type="range" id="sl-intent" min="0" max="500" step="10" value="150" oninput="calc()"><span class="val" id="out-intent">150</span></div>
-        <div class="sl-row"><label>Intent → Outreach-Erfolg (%)</label><input type="range" id="sl-ic" min="1" max="20" step="1" value="5" oninput="calc()"><span class="val" id="out-ic">5 %</span></div>
+        <div class="sl-row" id="row-vis-intent-slider"><label>Intent-Accounts (kaufbereit)</label><input type="range" id="sl-intent" min="0" max="500" step="10" value="150" oninput="calc()"><span class="val" id="out-intent">150</span></div>
+        <div class="sl-row" id="row-vis-ic-slider"><label>Intent → Outreach-Erfolg (%)</label><input type="range" id="sl-ic" min="1" max="20" step="1" value="5" oninput="calc()"><span class="val" id="out-ic">5 %</span></div>
         <hr class="divider">
         <div class="res-row" id="row-disp-imp" style="display:none"><span class="rl">davon Display Ads</span><span class="rv" id="r-disp-imp">—</span></div>
         <div class="res-row" id="row-email-imp" style="display:none"><span class="rl">davon E-Mail-Reichweite</span><span class="rv" id="r-email-imp">—</span></div>
         <div class="res-row"><span class="rl">Besucher via heise-Artikel</span><span class="rv blue" id="r-visit">—</span></div>
-        <div class="res-row"><span class="rl">Intent Outreach-Potenzial</span><span class="rv purple" id="r-intent">—</span></div>
-        <div class="res-row"><span class="rl">Monetäres Äquivalent</span><span class="rv green" id="r-intentval">—</span></div>
-        <div class="hint">Intent-Signale = warme Outreach-Anlässe. Ersetzt Cold Calls durch qualifizierten Gesprächseinstieg.</div>
+        <div class="res-row" id="row-vis-intent-result"><span class="rl">Intent Outreach-Potenzial</span><span class="rv purple" id="r-intent">—</span></div>
+        <div class="res-row" id="row-vis-intentval-result"><span class="rl">Monetäres Äquivalent</span><span class="rv green" id="r-intentval">—</span></div>
+        <div class="hint" id="hint-vis-intent">Intent-Signale = warme Outreach-Anlässe. Ersetzt Cold Calls durch qualifizierten Gesprächseinstieg.</div>
       </div>
     </div>
 
@@ -522,7 +523,7 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
         <div><div class="card-title">3 — Einsparungen</div><div class="card-sub">Marktforschung & Content</div></div>
         <div class="card-header-right" style="display:flex;align-items:center;gap:6px">
           <div class="help-wrap"><span class="help-btn" id="hbtn-efficiency" onclick="toggleHelp('efficiency')">?</span>
-          <div class="help-flyout" id="hfly-efficiency" style="right:0;left:auto">
+          <div class="help-flyout right" id="hfly-efficiency">
             <span class="help-flyout-close" onclick="closeHelp('efficiency')">✕</span>
             <div class="help-flyout-title">⚡ Einsparungen</div>
             <div class="help-flyout-body">Dieser Block berechnet, was du dir <em>sparst</em> — im Vergleich zur Eigenproduktion.<br><br><b style="color:#ACDDFA">Marktforschungsersparnis:</b> Wie viele Tage würde das eigene Team für vergleichbare Marktforschung benötigen? Multipliziert mit dem internen Tagessatz ergibt das den vermiedenen Aufwand.<br><br><b style="color:#ACDDFA">Content-Asset-Ersparnis:</b> Das PUR-Material (Grafiken, Texte, Benchmark-Daten) dient als Vorlage für eigene Assets. Wie viele würdest du erstellen? Jede gesparte Produktionszeit ist barer Mehrwert.<br><br>Richtwert: 8 Assets à 1,5 Tage = 12 Tage = 7.200 € bei 600 €/Tag.</div>
@@ -552,7 +553,7 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
         <div><div class="card-title">Badge-Boost-Potenzial</div><div class="card-sub">Hypothetischer Mehrwert durch Close-Rate-Verbesserung</div></div>
         <div class="card-header-right">
           <div class="help-wrap"><span class="help-btn" id="hbtn-badge-boost" onclick="toggleHelp('badge-boost')">?</span>
-          <div class="help-flyout" id="hfly-badge-boost" style="right:0;left:auto">
+          <div class="help-flyout right" id="hfly-badge-boost">
             <span class="help-flyout-close" onclick="closeHelp('badge-boost')">✕</span>
             <div class="help-flyout-title">🏅 Badge-Boost-Potenzial</div>
             <div class="help-flyout-body">Das Basic-Paket enthält keine MQL — es gibt also keinen klassischen Revenue-ROI über eine Lead-Pipeline. Trotzdem hat der PUR-Champion-Titel einen messbaren Vertriebseffekt.<br><br><b style="color:#ACDDFA">Warum wirkt der Badge?</b> Der Titel funktioniert als unabhängiges Gütesiegel von techconsult — einem anerkannten Analystenhaus. Im B2B-Entscheidungsprozess reduziert das Risiko und erhöht das Vertrauen. Das wirkt sich nachweislich auf die Close-Rate aus.<br><br><b style="color:#ACDDFA">Richtwert +5%:</b> Basiert auf Benchmarks aus vergleichbaren B2B-Zertifizierungsstudien. Als konservativer Ansatz fixiert.<br><br><b style="color:#ACDDFA">Rechenweg:</b> Laufende Deals pro Quartal × +5% × Ø Deal-Wert = zusätzlicher Umsatz pro Quartal. Hochgerechnet auf 4 Quartale = Jahrespotenzial.</div>
@@ -582,7 +583,7 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
         <div><div class="card-title">Opportunitätskosten-Vergleich</div><div class="card-sub">Basic vs. externe Studie</div></div>
         <div class="card-header-right">
           <div class="help-wrap"><span class="help-btn" id="hbtn-basic-opp" onclick="toggleHelp('basic-opp')">?</span>
-          <div class="help-flyout" id="hfly-basic-opp" style="right:0;left:auto">
+          <div class="help-flyout right" id="hfly-basic-opp">
             <span class="help-flyout-close" onclick="closeHelp('basic-opp')">✕</span>
             <div class="help-flyout-title">📈 Opportunitätskosten-Vergleich</div>
             <div class="help-flyout-body">Dieser Block stellt die Frage: <em>Was würde dieselbe Information kosten, wenn du sie selbst beschaffen müsstest?</em><br><br><b style="color:#ACDDFA">Vergleichswert ~27.500 €:</b> Eine selbst initiierte Auftragsstudie zur Kundenzufriedenheit im Wettbewerbsvergleich kostet erfahrungsgemäß 25.000–30.000 €. Mitte: 27.500 €.<br><br><b style="color:#ACDDFA">Opportunitätskosten-Ersparnis:</b> Differenz zwischen diesem Marktpreis und dem Basic-Invest von 12.900 €. Dieser Wert ist <em>fix</em> — er verändert sich nicht durch Add-ons, weil er rein den Vergleich mit der Eigenstudie abbildet.<br><br><b style="color:#ACDDFA">Gesamter Mehrwert:</b> Opportunitätsersparnis + Effizienz-Einsparungen (Marktforschung + Content). Das ist der vollständige ROI-Nachweis des Basic-Pakets.</div>
@@ -612,7 +613,7 @@ body{font-family:Calibri,'Segoe UI',Arial,sans-serif;background:#E8EDF2;color:#3
       <div style="display:flex;align-items:center;gap:8px">
         <div class="total-label" id="t-label">Gesamt-ROI (Revenue + Einsparungen + Reichweite)</div>
         <div class="help-wrap"><span class="help-btn" id="hbtn-total" onclick="toggleHelp('total')" style="background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.4);color:#fff">?</span>
-        <div class="help-flyout" id="hfly-total" style="bottom:110%;top:auto;left:0">
+        <div class="help-flyout" id="hfly-total" style="bottom:110%;top:auto">
           <span class="help-flyout-close" onclick="closeHelp('total')">✕</span>
           <div class="help-flyout-title">📊 Gesamt-ROI</div>
           <div class="help-flyout-body">Der Gesamt-ROI addiert alle aktiven ROI-Komponenten und setzt sie ins Verhältnis zur Gesamtinvestition.<br><br><b style="color:#ACDDFA">Netto-ROI:</b> Nach Abzug typischer Sales-Kosten (MQL-Bearbeitung + Deal-Aufwand). Zeigt den realistisch verbleibenden Mehrwert.<br><br><b style="color:#ACDDFA">Mehrwert-Zeile:</b> Der absolute Euro-Betrag über dem Invest — das ist der Betrag, der den Einsatz rechtfertigt.<br><br><b style="color:#ACDDFA">Basic-Paket:</b> ROI basiert auf Opportunitätskosten-Ersparnis + Effizienz-Einsparungen (kein MQL-Revenue).<br><br>Alle Werte sind konservativ kalkuliert — auf Basis von Branchen-Benchmarks.</div>
@@ -661,14 +662,38 @@ function fmtE(n){return Math.round(n).toLocaleString('de-DE')+' €';}
 function fmtN(n){return n.toLocaleString('de-DE',{minimumFractionDigits:1,maximumFractionDigits:1});}
 function fmtI(n){return Math.round(n).toLocaleString('de-DE');}
 
+// ── Zentrale Card-Sichtbarkeitssteuerung ─────────────────────────────────
+function updateCardVisibility() {
+  const isBasic = currentPkg === 'basic';
+  const isMedium = currentPkg === 'medium';
+  const isIntentMode = isMedium && mediumMode === 'intent';
+  // MQL-liefernde Add-ons aktiv?
+  const hasMqlAddon = addonState.webcast || addonState.leadgen;
+
+  // Revenue-Block: zeigen wenn (a) nicht Basic und nicht Intent-Modus,
+  // ODER (b) Intent-Modus aber MQL-Add-on aktiv
+  const showRevenue = !isBasic && (!isIntentMode || hasMqlAddon);
+  document.getElementById('card-revenue').style.display = showRevenue ? '' : 'none';
+
+  // Intent-ROI-Block: nur im Intent-Modus (unabhängig von Add-ons)
+  document.getElementById('card-intent-roi').style.display = isIntentMode ? '' : 'none';
+
+  // Reichweite: Intent-Slider ausblenden wenn Intent-Modus aktiv
+  // (Intent-Accounts + IC-Slider und ihre Ergebnis-Zeilen)
+  const hideIntentInVis = isIntentMode;
+  ['row-vis-intent-slider','row-vis-ic-slider',
+   'row-vis-intent-result','row-vis-intentval-result','hint-vis-intent'
+  ].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = hideIntentInVis ? 'none' : '';
+  });
+}
+
 function setMediumMode(mode){
   mediumMode = mode;
   document.getElementById('mopt-mql').classList.toggle('active', mode==='mql');
   document.getElementById('mopt-intent').classList.toggle('active', mode==='intent');
-  // Show/hide cards
-  document.getElementById('card-revenue').style.display = mode==='mql' ? '' : 'none';
-  document.getElementById('card-intent-roi').style.display = mode==='intent' ? '' : 'none';
-  // Visibility card: always show for both (different slot)
+  updateCardVisibility();
   calc();
 }
 
@@ -703,14 +728,7 @@ function setPkg(p){
     document.getElementById('card-visibility').style.display = '';
     const metricsRow = document.querySelector('.metrics-row');
     if(metricsRow) metricsRow.style.display = '';
-    if(isMedium){
-      document.getElementById('card-revenue').style.display = mediumMode==='mql' ? '' : 'none';
-      document.getElementById('card-intent-roi').style.display = mediumMode==='intent' ? '' : 'none';
-    } else {
-      // Advanced
-      document.getElementById('card-revenue').style.display = '';
-      document.getElementById('card-intent-roi').style.display = 'none';
-    }
+    updateCardVisibility();
   }
 
   if(p==='advanced'){
@@ -738,6 +756,8 @@ function toggleAddon(a){
   if(a==='display'){document.getElementById('shared-sliders').style.display='block';document.getElementById('display-row-shared').style.display=s;}
   if(a==='email'){document.getElementById('shared-sliders').style.display='block';document.getElementById('email-row-shared').style.display=s;}
   if(a==='webcast')document.getElementById('row-wc').style.display=s;
+  // Revenue-Block ggf. einblenden wenn MQL-Add-on im Intent-Modus aktiviert
+  if(currentPkg==='medium') updateCardVisibility();
   calc();
 }
 
@@ -821,7 +841,7 @@ function calc(){
     const tpk = parseFloat(document.getElementById('sl-tpk').value);
     const hrk = parseInt(document.getElementById('sl-hrk').value);
     const cpa = parseInt(document.getElementById('sl-cpa').value);
-    const replyBoost = 0.10; // fixed
+    const replyBoost = 0.10;
 
     document.getElementById('out-intent-accounts').textContent = fmtI(accounts);
     document.getElementById('out-cpk').textContent = fmtE(cpk);
@@ -830,14 +850,11 @@ function calc(){
     document.getElementById('out-cpa').textContent = cpa;
 
     const totalContacts = accounts * cpa;
-    // Zeit-Ersparnis: dank Intent müssen 30% weniger irrelevante Kontakte bearbeitet werden
     const timeSparedPerContact = tpk * 0.3;
     const totalTimeSaved = totalContacts * timeSparedPerContact;
     const timeSavedVal = totalTimeSaved * hrk;
-    // Kosteneinsparung: priorisiertes Kontaktieren spart Kosten
     const costSavePerContact = cpk * 0.25;
     const totalCostSave = totalContacts * costSavePerContact;
-    // Reply-Rate-Boost-Mehrwert-Accounts
     const replyBoostAccounts = Math.round(accounts * replyBoost);
 
     document.getElementById('r-intent-acc').textContent = fmtI(accounts) + ' Accounts';
@@ -866,7 +883,7 @@ function calc(){
     document.getElementById('r-cont').textContent=fmtE(contSaving);
     document.getElementById('r-eff').textContent=fmtE(resSaving+contSaving);
 
-    // Reichweite
+    // Reichweite (nur Impressions/CTR, kein Intent-Teil im Vis-Block)
     const impBase=parseInt(document.getElementById('sl-imp').value);
     const dispBudget=addonState.display?parseInt(document.getElementById('sl-dispb').value):0;
     const dispImpressions=addonState.display?Math.round(dispBudget/189*1000):0;
@@ -874,34 +891,83 @@ function calc(){
     const emailRecipients=emailTkp*1000;
     const imp=impBase+dispImpressions+emailRecipients;
     const ctr=parseFloat(document.getElementById('sl-ctr').value)/100;
-    const intentSlider=parseInt(document.getElementById('sl-intent').value);
-    const ic=parseInt(document.getElementById('sl-ic').value)/100;
     document.getElementById('out-imp').textContent=fmtI(imp);
     document.getElementById('out-ctr').textContent=(ctr*100).toFixed(1).replace('.',',')+' %';
-    document.getElementById('out-intent').textContent=fmtI(intentSlider);
-    document.getElementById('out-ic').textContent=Math.round(ic*100)+' %';
     const visitors=Math.round(imp*ctr);
-    const intentAccounts=Math.round(intentSlider*ic);
-    const intentval=sectionActive.visibility?intentAccounts*(parseInt(document.getElementById('sl-dv')?.value||30000))*.25:0;
     document.getElementById('r-visit').textContent=fmtI(visitors);
-    document.getElementById('r-intent').textContent=intentAccounts+' Accounts';
-    document.getElementById('r-intentval').textContent=fmtE(intentval);
 
-    const invest = pkgBase.medium;
-    const total = intentTotal + eff + (sectionActive.visibility?intentval:0);
+    // Im Intent-Modus: Intent-Zeilen im Vis-Block ausgeblendet — Werte nicht nötig
+
+    // ── MQL-Add-ons: Revenue-ROI zusätzlich berechnen ─────────────────────
+    let revNet = 0;
+    let mqAddonTotal = 0;
+    const hasMqlAddon = addonState.webcast || addonState.leadgen;
+    if(hasMqlAddon){
+      const dv=parseInt(document.getElementById('sl-dv').value);
+      const l2o=parseInt(document.getElementById('sl-l2o').value)/100;
+      const o2c=parseInt(document.getElementById('sl-o2c').value)/100;
+      const mqwc=addonState.webcast?50:0;
+      const mqcpl=addonState.leadgen?parseInt(document.getElementById('sl-cpll').value):0;
+      const mqtot=mqwc+mqcpl;
+      const dealsBase=mqtot*l2o*o2c;
+      const effClose=Math.min(o2c+boost,.95);
+      const opps=mqtot*l2o;
+      const deals=opps*effClose;
+      const badgeDeals=deals-dealsBase;
+      const badgeVal=badgeDeals*dv;
+      const rev=deals*dv;
+      const costmql=parseInt(document.getElementById('sl-costmql').value);
+      const salescost=parseInt(document.getElementById('sl-salescost').value);
+      revNet=rev-(mqtot*costmql+deals*salescost);
+      mqAddonTotal=mqtot;
+
+      document.getElementById('out-dv').textContent=fmtE(dv);
+      document.getElementById('out-l2o').textContent=Math.round(l2o*100)+' %';
+      document.getElementById('out-o2c').textContent=Math.round(o2c*100)+' %';
+      document.getElementById('out-costmql').textContent=fmtE(costmql);
+      document.getElementById('out-salescost').textContent=fmtE(salescost);
+      document.getElementById('r-mqll').textContent='0 MQL (Intent-Modus)';
+      document.getElementById('r-mqwc').textContent=mqwc+' MQL';
+      document.getElementById('r-mqcpl').textContent=mqcpl+' MQL';
+      document.getElementById('r-mqtot').textContent=mqtot+' MQL (Add-ons)';
+      document.getElementById('r-opps').textContent=fmtN(opps);
+      document.getElementById('r-deals-base').textContent=fmtN(dealsBase);
+      document.getElementById('r-badge-deals').textContent='+'+fmtN(badgeDeals)+' Deals';
+      document.getElementById('r-badge-val').textContent=fmtE(badgeVal);
+      document.getElementById('r-deals').textContent=fmtN(deals);
+      document.getElementById('r-rev').textContent=fmtE(rev);
+      document.getElementById('r-cost-mql').textContent='– '+fmtE(mqtot*costmql);
+      document.getElementById('r-cost-deal').textContent='– '+fmtE(deals*salescost);
+      document.getElementById('r-salescost').textContent='– '+fmtE(mqtot*costmql+deals*salescost);
+      document.getElementById('r-rev-net').textContent=fmtE(revNet);
+    }
+
+    let invest = pkgBase.medium;
+    if(addonState.webcast) invest+=16900;
+    if(addonState.leadgen) invest+=parseInt(document.getElementById('sl-cpll').value)*150;
+    if(addonState.display) invest+=dispBudget;
+    if(addonState.email)   invest+=emailTkp*400;
+
+    const total = intentTotal + revNet + eff + (sectionActive.visibility?0:0); // vis ohne Intent-Teil
     const roiNet = ((total - invest)/invest)*100;
 
     document.getElementById('m-invest').textContent=fmtE(invest);
-    document.getElementById('m-mql').textContent='Intent Data';
-    document.getElementById('m-rev').textContent=fmtE(intentTotal);
+    document.getElementById('m-mql').textContent=hasMqlAddon?(mqAddonTotal+' MQL (Add-on)'):'Intent Data';
+    document.getElementById('m-rev').textContent=fmtE(intentTotal+(hasMqlAddon?revNet:0));
     const roiEl=document.getElementById('m-roi');
     roiEl.textContent=(roiNet>=0?'+':'')+Math.round(roiNet)+' %';
     roiEl.className='met-v '+(roiNet>=0?'green':'');
     document.getElementById('t-roi-net').textContent=(roiNet>=0?'+':'')+Math.round(roiNet)+' %';
     document.getElementById('t-roi-net').style.color=roiNet>=0?'#6EE7B7':'#F87171';
     document.getElementById('t-net').textContent='Mehrwert: '+(total>=invest?'+ ':'')+fmtE(Math.abs(total-invest));
-    document.getElementById('t-label').textContent='Gesamt-ROI (Intent-Effizienz + Einsparungen + Reichweite)';
-    document.getElementById('t-sub').textContent='Intent-ROI: '+fmtE(intentTotal)+' | Einsparungen: '+fmtE(eff)+(sectionActive.visibility?' | Reichweite: '+fmtE(intentval):'');
+
+    const labelParts=['Intent-Effizienz','Einsparungen'];
+    if(hasMqlAddon) labelParts.push('Revenue (Add-ons)');
+    document.getElementById('t-label').textContent='Gesamt-ROI ('+labelParts.join(' + ')+')';
+
+    const subParts=['Intent-ROI: '+fmtE(intentTotal),'Einsparungen: '+fmtE(eff)];
+    if(hasMqlAddon) subParts.push('Revenue (netto): '+fmtE(revNet));
+    document.getElementById('t-sub').textContent=subParts.join(' | ');
 
     updateOppCostHint(invest, total);
     updateContents();
