@@ -412,15 +412,15 @@ input[type=range]:disabled::-webkit-slider-thumb{border-color:#94A3B8;box-shadow
   <div class="addon-section" id="addon-section" style="display:none">
     <div class="addon-section-title">Add-ons aktivieren</div>
     <div class="addon-grid">
-      <div class="addon-card" id="ao-webcast" onclick="toggleAddon('webcast')"><div class="addon-name">On-Demand Webcast</div><div class="addon-price">+50 MQL</div></div>
+      <div class="addon-card" id="ao-webcast" onclick="toggleAddon('webcast')"><div class="addon-name">On-Demand Webcast</div><div class="addon-price">9.900 € · inkl. 50 Leads</div></div>
       <div class="addon-card" id="ao-leadgen" onclick="toggleAddon('leadgen')"><div class="addon-name">Leadgenerierung</div><div class="addon-price">variable MQL</div></div>
-      <div class="addon-card" id="ao-display" onclick="toggleAddon('display')"><div class="addon-name">Display Ads für Impressions</div><div class="addon-price">+ Impressions</div></div>
+      <div class="addon-card" id="ao-display" onclick="toggleAddon('display')"><div class="addon-name">Display Ads für Impressions</div><div class="addon-price">TKP ab 189 €</div></div>
       <div class="addon-card" id="ao-email" onclick="toggleAddon('email')"><div class="addon-name">E-Mail-Reichweite</div><div class="addon-price" id="ao-email-price">400 € / TKP + 1.500 € Reporting + 1.750 € Remindermail</div></div>
       <div class="addon-card" id="ao-banner" onclick="toggleAddon('banner')"><div class="addon-name">Kostenfreier Banner</div><div class="addon-price">0 € · 50.000 Impr. (2× 7 Tage heise.de)</div></div>
       <div class="addon-card" id="ao-gz" onclick="toggleAddon('gz')"><div class="addon-name">Ganzseitige Anzeige c't/iX</div><div class="addon-price">1.690 € · +50.000 Impressions</div></div>
       <div class="addon-card" id="ao-newsletter" onclick="toggleAddon('newsletter')"><div class="addon-name">Newsletter Ads für Impressions</div><div class="addon-price">TKP 85 € · 800 Impr./Ausgabe</div></div>
-      <div class="addon-card" id="ao-messe" onclick="toggleAddon('messe')"><div class="addon-name">Messeaufsteller</div><div class="addon-price">Preis folgt</div></div>
-      <div class="addon-card" id="ao-quote" onclick="toggleAddon('quote')"><div class="addon-name">Analysten-Zitat, grafisch aufbereitet</div><div class="addon-price">Preis folgt</div></div>
+      <div class="addon-card" id="ao-messe" onclick="toggleAddon('messe')"><div class="addon-name">Messeaufsteller</div><div class="addon-price">100 €</div></div>
+      <div class="addon-card" id="ao-quote" onclick="toggleAddon('quote')"><div class="addon-name">Analysten-Zitat, grafisch aufbereitet</div><div class="addon-price">350 €</div></div>
       <div class="addon-card" id="ao-vinsights" onclick="toggleAddon('vinsights')"><div class="addon-name">Exklusive Vendor Insights</div><div class="addon-price">3.200 €</div></div>
       <div class="addon-card" id="ao-vbenchmark" onclick="toggleAddon('vbenchmark')"><div class="addon-name">Individualisierter Vendor Benchmark</div><div class="addon-price">950 €</div></div>
       <div class="addon-card" id="ao-avideo" onclick="toggleAddon('avideo')"><div class="addon-name">Video-Analystenstatement</div><div class="addon-price" id="ao-avideo-price">850 €</div></div>
@@ -431,7 +431,7 @@ input[type=range]:disabled::-webkit-slider-thumb{border-color:#94A3B8;box-shadow
   <!-- Shared variable sliders (used by both addon-section and builder) -->
   <div id="shared-sliders" style="display:none">
     <div id="leadgen-row-shared" class="sl-row" style="display:none"><label>Anzahl Leads (Leadgenerierung)</label><input type="range" id="sl-cpll" min="10" max="200" step="10" value="50" oninput="calc()"><span class="val" id="out-cpll">50</span></div>
-    <div id="display-row-shared" class="sl-row" style="display:none"><label>Display-Budget (€)</label><input type="range" id="sl-dispb" min="1000" max="20000" step="500" value="5000" oninput="calc()"><span class="val" id="out-dispb">5.000 €</span></div>
+    <div id="display-row-shared" class="sl-row" style="display:none"><label>Display Ads TKP-Einheiten</label><input type="range" id="sl-dispt" min="1" max="20" step="1" value="5" oninput="calc()"><span class="val" id="out-dispt">5 TKP = 5.000</span></div>
     <div id="email-row-shared" class="sl-row" style="display:none"><label>E-Mail Versandgröße (TKP-Einheiten)</label><input type="range" id="sl-emailt" min="1" max="20" step="1" value="5" oninput="calc()"><span class="val" id="out-emailt">5 TKP = 5.000</span></div>
     <div id="newsletter-row-shared" class="sl-row" style="display:none"><label>Anzahl Newsletter-Ausgaben</label><input type="range" id="sl-newslettert" min="1" max="10" step="1" value="1" oninput="calc()"><span class="val" id="out-newslettert">1 Ausgabe</span></div>
   </div>
@@ -445,38 +445,6 @@ input[type=range]:disabled::-webkit-slider-thumb{border-color:#94A3B8;box-shadow
     <div id="addon-cost-tiles" style="display:contents"></div>
   </div>
 
-  <div id="basic-note" style="display:none;background:#EBF4FF;border:1px solid #ACDDFA;border-radius:var(--radius-md);padding:16px 20px;margin-bottom:16px;box-shadow:var(--shadow-sm)">
-    <div style="font-size:13px;font-weight:600;color:#022B58;font-family:'Inter',Verdana,sans-serif;margin-bottom:6px">Basic-Paket — ROI-Komponenten</div>
-    <div style="font-size:11px;color:#64748B;margin-bottom:10px">Inklusive Leistungen des Basic-Pakets — wähle optional weitere Bausteine:</div>
-    <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px">
-      <div style="display:flex;gap:8px;align-items:flex-start;padding:6px 10px;background:#fff;border-radius:7px;border:1px solid #E0E0E0">
-        <span class="icon" style="color:#022B58;margin-top:1px"><svg class="icon"><use href="#ic-chart-bar"/></svg></span>
-        <div><div style="font-size:11.5px;font-weight:600;color:#022B58">Vendor Benchmark</div><div style="font-size:10px;color:#64748B">Sämtliche Ergebnisse des Segments detailliert — zur internen Verwendung</div></div>
-      </div>
-      <div style="display:flex;gap:8px;align-items:flex-start;padding:6px 10px;background:#fff;border-radius:7px;border:1px solid #E0E0E0">
-        <span class="icon" style="color:#B45309;margin-top:1px"><svg class="icon"><use href="#ic-medal"/></svg></span>
-        <div><div style="font-size:11.5px;font-weight:600;color:#022B58">Urkunde + Award-Badge</div><div style="font-size:10px;color:#64748B">Zur internen & externen Verwendung — steht für besondere Leistungen im Lösungsbereich</div></div>
-      </div>
-      <div style="display:flex;gap:8px;align-items:flex-start;padding:6px 10px;background:#fff;border-radius:7px;border:1px solid #E0E0E0">
-        <span class="icon" style="color:#0C7DEC;margin-top:1px"><svg class="icon"><use href="#ic-check-circle"/></svg></span>
-        <div><div style="font-size:11.5px;font-weight:600;color:#022B58">Vermarktungsrecht / Nutzungsrecht</div><div style="font-size:10px;color:#64748B">Recht, umfassend mit der eigenen Platzierung zu werben — inkl. Diamant-Grafik und Badge</div></div>
-      </div>
-    </div>
-    <div class="two-col" style="gap:10px;margin-bottom:0">
-      <div style="background:#F0FDF4;border-radius:8px;padding:10px 12px;border:1px solid #BBF7D0">
-        <div style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:#166534;margin-bottom:3px"><svg class="icon" style="width:14px;height:14px"><use href="#ic-zap"/></svg> Effizienz-ROI</div>
-        <div style="font-size:10.5px;color:#333">Ersparnis durch fertige Marktforschung und Content-Assets statt Eigenproduktion.</div>
-      </div>
-      <div style="background:#FFF7ED;border-radius:8px;padding:10px 12px;border:1px solid #FED7AA">
-        <div style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:#9A3412;margin-bottom:3px"><svg class="icon" style="width:14px;height:14px"><use href="#ic-trending-up"/></svg> Opportunitätskosten-Vergleich</div>
-        <div style="font-size:10.5px;color:#333">Vergleichbare externe Marktanalyse: 25.000–30.000 €. Basic-Paket: 12.900 €.</div>
-      </div>
-    </div>
-    <div style="margin-top:12px;padding:8px 12px;background:#022B58;border-radius:8px;display:flex;justify-content:space-between;align-items:center">
-      <span style="font-size:11px;color:#ACDDFA">Opportunitätskosten-Ersparnis gegenüber externer Studie</span>
-      <span style="font-size:16px;font-weight:700;color:#6EE7B7;font-family:'Inter',Verdana,sans-serif" id="basic-opp-saving">~15.100 €</span>
-    </div>
-  </div>
 
   <div class="grid">
 
@@ -562,6 +530,23 @@ input[type=range]:disabled::-webkit-slider-thumb{border-color:#94A3B8;box-shadow
         <div class="res-row"><span class="rl">Ersparnis Marktforschung</span><span class="rv green" id="r-res">—</span></div>
         <div class="res-row"><span class="rl">Ersparnis Content-Erstellung</span><span class="rv green" id="r-cont">—</span></div>
         <div class="res-row"><span class="rl">Einsparungen gesamt</span><span class="rv green" id="r-eff">—</span></div>
+        <div id="basic-note" style="display:none">
+          <hr class="divider">
+          <div class="two-col" style="gap:10px;margin-bottom:0">
+            <div style="background:#F0FDF4;border-radius:8px;padding:10px 12px;border:1px solid #BBF7D0">
+              <div style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:#166534;margin-bottom:3px"><svg class="icon" style="width:14px;height:14px"><use href="#ic-zap"/></svg> Effizienz-ROI</div>
+              <div style="font-size:10.5px;color:#333">Ersparnis durch fertige Marktforschung und Content-Assets statt Eigenproduktion.</div>
+            </div>
+            <div style="background:#FFF7ED;border-radius:8px;padding:10px 12px;border:1px solid #FED7AA">
+              <div style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:#9A3412;margin-bottom:3px"><svg class="icon" style="width:14px;height:14px"><use href="#ic-trending-up"/></svg> Opportunitätskosten-Vergleich</div>
+              <div style="font-size:10.5px;color:#333">Vergleichbare externe Marktanalyse: 25.000–30.000 €. Basic-Paket: 12.900 €.</div>
+            </div>
+          </div>
+          <div style="margin-top:12px;padding:8px 12px;background:#022B58;border-radius:8px;display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:11px;color:#ACDDFA">Opportunitätskosten-Ersparnis gegenüber externer Studie</span>
+            <span style="font-size:16px;font-weight:700;color:#6EE7B7;font-family:'Inter',Verdana,sans-serif" id="basic-opp-saving">~15.100 €</span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -636,7 +621,7 @@ const DEFAULTS = {
   'sl-dv':30000,'sl-l2o':20,'sl-o2c':25,'sl-boost':5,
   'sl-imp':0,'sl-ctr':1.5,
   'sl-days':10,'sl-rate':600,'sl-assets':8,'sl-ad':1.5,
-  'sl-cpll':50,'sl-dispb':5000,'sl-emailt':5,'sl-salescost':2500,'sl-costmql':200,
+  'sl-cpll':50,'sl-dispt':5,'sl-emailt':5,'sl-salescost':2500,'sl-costmql':200,
   'sl-intent-roi':100,'sl-intent-success':8,'sl-intent-dv':30000,'sl-newslettert':1
 };
 const pkgBase={basic:12900,medium:16900,advanced:24900};
@@ -651,7 +636,7 @@ function emptyAddonState(){
 const addonStateByPkg = {basic:emptyAddonState(),medium:emptyAddonState(),advanced:emptyAddonState()};
 let addonState = addonStateByPkg.medium;
 
-const ADDON_SLIDER_IDS = ['sl-cpll','sl-dispb','sl-emailt','sl-newslettert'];
+const ADDON_SLIDER_IDS = ['sl-cpll','sl-dispt','sl-emailt','sl-newslettert'];
 function defaultAddonSliders(){
   const d={};
   ADDON_SLIDER_IDS.forEach(id=>{ d[id]=DEFAULTS[id]; });
@@ -706,7 +691,7 @@ function applyPackageAddonLocks(){
     if(currentPkg==='medium') {
       document.getElementById('ao-webcast').style.opacity='';
       document.getElementById('ao-webcast').style.pointerEvents='';
-      document.getElementById('ao-webcast').querySelector('.addon-price').textContent='+50 MQL (On-Demand)';
+      document.getElementById('ao-webcast').querySelector('.addon-price').textContent='9.900 € · inkl. 50 Leads';
       if(!addonState.webcast) document.getElementById('row-wc').style.display='none';
     }
     document.getElementById('ao-avideo').style.opacity='';
@@ -814,11 +799,10 @@ function updateReachVisibility(){
 
 // Einzige Quelle für Add-on-Kosten und -Impressions — von calc() UND getState()
 // (PDF/PPTX-Export) genutzt, damit beide niemals auseinanderlaufen.
-// Preise ohne Kundenfreigabe stehen als "Preis folgt" (Kosten 0) in der UI:
-// Messeaufsteller, Analysten-Zitat.
 function computeAddonExtras(){
-  const dispBudget = addonState.display ? parseInt(document.getElementById('sl-dispb').value) : 0;
-  const dispImpressions = addonState.display ? Math.round(dispBudget/189*1000) : 0;
+  const dispTkp = addonState.display ? (parseInt(document.getElementById('sl-dispt').value)||1) : 0;
+  const dispBudget = dispTkp*189;
+  const dispImpressions = dispTkp*1000;
   const emailTkp = addonState.email ? parseInt(document.getElementById('sl-emailt').value) : 0;
   const emailRecipients = emailTkp*1000;
   const bannerImpressions = addonState.banner ? 50000 : 0; // heise.de, 2× 7 Tage
@@ -827,18 +811,20 @@ function computeAddonExtras(){
   const newsletterImpressions = newsletterUnits*800;
 
   let cost = 0;
-  if(addonState.webcast && currentPkg==='medium') cost += 16900;
+  if(addonState.webcast && currentPkg==='medium') cost += 9900;
   if(addonState.leadgen) cost += parseInt(document.getElementById('sl-cpll').value)*150;
   if(addonState.display) cost += dispBudget;
   if(addonState.email) cost += emailTkp*400 + 1500 + 1750; // + Reporting (1.500 €) + Remindermail (1.750 €)
   if(addonState.gz) cost += 1690;
   if(addonState.newsletter) cost += newsletterUnits*85;
+  if(addonState.messe) cost += 100;
+  if(addonState.quote) cost += 350;
   if(addonState.vinsights) cost += 3200;
   if(addonState.vbenchmark) cost += 950;
   if(addonState.avideo && currentPkg!=='advanced') cost += 850;
 
   const impressions = dispImpressions + emailRecipients + bannerImpressions + gzImpressions + newsletterImpressions;
-  return {cost, impressions, dispBudget, dispImpressions, emailTkp, emailRecipients, bannerImpressions, gzImpressions, newsletterUnits, newsletterImpressions};
+  return {cost, impressions, dispTkp, dispBudget, dispImpressions, emailTkp, emailRecipients, bannerImpressions, gzImpressions, newsletterUnits, newsletterImpressions};
 }
 
 function toggleAddon(a){
@@ -1080,7 +1066,7 @@ function calc(){
   const boostEl=document.getElementById('sl-boost');
   const boost=(boostEl)?parseInt(boostEl.value)/100:0.05;
   const extras=computeAddonExtras();
-  const {emailTkp,emailRecipients,bannerImpressions,gzImpressions,newsletterUnits}=extras;
+  const {dispTkp,dispImpressions,emailTkp,emailRecipients,bannerImpressions,gzImpressions,newsletterUnits}=extras;
   // Fix: reine Summe der Add-on-Impressions, keine frei verschiebbare Baseline.
   const imp=extras.impressions;
   const impEl=document.getElementById('sl-imp');
@@ -1136,7 +1122,7 @@ function calc(){
   }
   invest+=extras.cost;
   if(document.getElementById('out-cpll')) document.getElementById('out-cpll').textContent=document.getElementById('sl-cpll').value;
-  if(document.getElementById('out-dispb')) document.getElementById('out-dispb').textContent=fmtE(parseInt(document.getElementById('sl-dispb').value));
+  if(document.getElementById('out-dispt')) document.getElementById('out-dispt').textContent=dispTkp+' TKP = '+fmtI(dispImpressions);
   if(document.getElementById('out-emailt')) document.getElementById('out-emailt').textContent=emailTkp+' TKP = '+fmtI(emailRecipients);
 
   const mqll=pkgLeads[currentPkg]??20;
@@ -1197,13 +1183,13 @@ function calc(){
     const addonLabels={
       webcast:{label:'On-Demand Webcast',cost:currentPkg==='medium'?16900:0,unit:''},
       leadgen:{label:'Leadgenerierung',cost:(addonState.leadgen?parseInt(document.getElementById('sl-cpll').value)*150:0),unit:''},
-      display:{label:'Display Ads f. Impr.',cost:(addonState.display?parseInt(document.getElementById('sl-dispb').value):0),unit:''},
+      display:{label:'Display Ads f. Impr.',cost:(addonState.display?(parseInt(document.getElementById('sl-dispt').value)||0)*189:0),unit:''},
       email:{label:'E-Mail-Reichweite',cost:(addonState.email?emailTkp*400+1500+1750:0),unit:''},
       banner:{label:'Kostenfreier Banner',cost:0,unit:'inklusive'},
       gz:{label:'Anzeige c\'t/iX',cost:1690,unit:''},
       newsletter:{label:'Newsletter Ads f. Impr.',cost:(addonState.newsletter?newsletterUnits*85:0),unit:''},
-      messe:{label:'Messeaufsteller',cost:0,unit:'Preis folgt'},
-      quote:{label:'Analysten-Zitat',cost:0,unit:'Preis folgt'},
+      messe:{label:'Messeaufsteller',cost:100,unit:''},
+      quote:{label:'Analysten-Zitat',cost:350,unit:''},
       vinsights:{label:'Exkl. Vendor Insights',cost:3200,unit:''},
       vbenchmark:{label:'Individ. Vendor Benchmark',cost:950,unit:''},
       avideo:{label:'Video-Analystenstatement',cost:currentPkg==='advanced'?0:850,unit:currentPkg==='advanced'?'im Paket':''}
@@ -1429,12 +1415,12 @@ function updateContents(){
 
   // Add-ons (medium/advanced)
   if(addonState.webcast&&currentPkg==='medium') items.push({icon:'mic', text:'On-Demand Webcast (Add-on)', sub:'50 MQL via Video-on-Demand', color:'#059669'});
-  if(addonState.leadgen) items.push({icon:'funnel', text:'Leadgenerierung (Add-on)', sub:fmtN(parseInt(document.getElementById('sl-cpll')||{value:50}).value||50)+' Leads', color:'#059669'});
+  if(addonState.leadgen) items.push({icon:'funnel', text:'Leadgenerierung (Add-on)', sub:fmtI(parseInt(document.getElementById('sl-cpll')||{value:50}).value||50)+' Leads', color:'#059669'});
   if(addonState.display) items.push({icon:'chart-bar', text:'Display Ads für Impressions (Add-on)', sub:'+ Impressions im heise-Netzwerk', color:'#165AA6'});
   if(addonState.email)   items.push({icon:'mail', text:'E-Mail-Kampagne (Add-on)', sub:'Direktansprache IT-Entscheider', color:'#165AA6'});
-  if(addonState.messe)   items.push({icon:'map-pin', text:'Messeaufsteller (Add-on)', sub:'Preis folgt', color:'#165AA6'});
+  if(addonState.messe)   items.push({icon:'map-pin', text:'Messeaufsteller (Add-on)', sub:'100 €', color:'#165AA6'});
   if(addonState.newsletter) items.push({icon:'newspaper', text:'Newsletter Ads für Impressions (Add-on)', sub:'TKP 85 € · 800 Impr./Ausgabe', color:'#165AA6'});
-  if(addonState.quote)   items.push({icon:'quote', text:'Analysten-Zitat, grafisch aufbereitet (Add-on)', sub:'Preis folgt', color:'#165AA6'});
+  if(addonState.quote)   items.push({icon:'quote', text:'Analysten-Zitat, grafisch aufbereitet (Add-on)', sub:'350 €', color:'#165AA6'});
   if(addonState.vinsights) items.push({icon:'clipboard-list', text:'Exklusive Vendor Insights (Add-on)', sub:'Ausgewählter Lösungsbereich inkl. Veröffentlichung', color:'#165AA6'});
   if(addonState.vbenchmark) items.push({icon:'chart-bar', text:'Individualisierter Vendor Benchmark (Add-on)', sub:'Integration in den Vendor Benchmark Report', color:'#165AA6'});
   if(addonState.avideo && currentPkg!=='advanced') items.push({icon:'video', text:'Video-Analystenstatement (Add-on)', sub:'Kernergebnisse zur freien Verwendung (1–3 min)', color:'#165AA6'});
