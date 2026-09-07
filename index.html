@@ -414,11 +414,11 @@ input[type=range]:disabled::-webkit-slider-thumb{border-color:#94A3B8;box-shadow
     <div class="addon-grid">
       <div class="addon-card" id="ao-webcast" onclick="toggleAddon('webcast')"><div class="addon-name">On-Demand Webcast</div><div class="addon-price">+50 MQL</div></div>
       <div class="addon-card" id="ao-leadgen" onclick="toggleAddon('leadgen')"><div class="addon-name">Leadgenerierung</div><div class="addon-price">variable MQL</div></div>
-      <div class="addon-card" id="ao-display" onclick="toggleAddon('display')"><div class="addon-name">Display Ads</div><div class="addon-price">+ Impressions</div></div>
+      <div class="addon-card" id="ao-display" onclick="toggleAddon('display')"><div class="addon-name">Display Ads für Impressions</div><div class="addon-price">+ Impressions</div></div>
       <div class="addon-card" id="ao-email" onclick="toggleAddon('email')"><div class="addon-name">E-Mail-Reichweite</div><div class="addon-price" id="ao-email-price">400 € / TKP + 1.500 € Reporting + 1.750 € Remindermail</div></div>
       <div class="addon-card" id="ao-banner" onclick="toggleAddon('banner')"><div class="addon-name">Kostenfreier Banner</div><div class="addon-price">0 € · 50.000 Impr. (2× 7 Tage heise.de)</div></div>
       <div class="addon-card" id="ao-gz" onclick="toggleAddon('gz')"><div class="addon-name">Ganzseitige Anzeige c't/iX</div><div class="addon-price">1.690 € · +50.000 Impressions</div></div>
-      <div class="addon-card" id="ao-newsletter" onclick="toggleAddon('newsletter')"><div class="addon-name">Newsletter Ads</div><div class="addon-price">TKP 85 € · 800 Impr./Ausgabe</div></div>
+      <div class="addon-card" id="ao-newsletter" onclick="toggleAddon('newsletter')"><div class="addon-name">Newsletter Ads für Impressions</div><div class="addon-price">TKP 85 € · 800 Impr./Ausgabe</div></div>
       <div class="addon-card" id="ao-messe" onclick="toggleAddon('messe')"><div class="addon-name">Messeaufsteller</div><div class="addon-price">Preis folgt</div></div>
       <div class="addon-card" id="ao-quote" onclick="toggleAddon('quote')"><div class="addon-name">Analysten-Zitat, grafisch aufbereitet</div><div class="addon-price">Preis folgt</div></div>
       <div class="addon-card" id="ao-vinsights" onclick="toggleAddon('vinsights')"><div class="addon-name">Exklusive Vendor Insights</div><div class="addon-price">3.200 €</div></div>
@@ -502,7 +502,7 @@ input[type=range]:disabled::-webkit-slider-thumb{border-color:#94A3B8;box-shadow
       <div class="sl-row"><label>Opportunity → Close (%)</label><input type="range" id="sl-o2c" min="5" max="50" step="1" value="25" oninput="calc()"><span class="val" id="out-o2c">25 %</span></div>
       <div class="sl-row"><label>Close-Rate-Boost durch PUR-Titel (+%)</label><input type="range" id="sl-boost" min="0" max="20" step="1" value="5" oninput="calc()"><span class="val" id="out-boost">+5 %</span></div>
       <div class="sl-row" style="margin-top:4px"><label style="color:#94A3B8">Ø Sales-Kosten pro MQL <span style="font-size:10px;background:#F1F5F9;padding:1px 6px;border-radius:4px;margin-left:4px">Richtwert</span></label><input type="range" id="sl-costmql" min="0" max="2000" step="50" value="200" disabled style="opacity:.4;cursor:not-allowed"><span class="val" id="out-costmql" style="color:#94A3B8">200 €</span></div>
-      <div class="sl-row"><label style="color:#94A3B8">Ø Sales-Kosten pro gewonnenem Deal <span style="font-size:10px;background:#F1F5F9;padding:1px 6px;border-radius:4px;margin-left:4px" title="Skaliert automatisch mit dem Ø Deal-Wert">Richtwert · skaliert mit Dealwert</span></label><input type="range" id="sl-salescost" min="0" max="21000" step="250" value="4000" disabled style="opacity:.4;cursor:not-allowed"><span class="val" id="out-salescost" style="color:#94A3B8">4.000 €</span></div>
+      <div class="sl-row"><label style="color:#94A3B8">Ø Sales-Kosten pro gewonnenem Deal <span style="font-size:10px;background:#F1F5F9;padding:1px 6px;border-radius:4px;margin-left:4px" title="Skaliert automatisch mit dem Ø Deal-Wert">Richtwert · skaliert mit Dealwert</span></label><input type="range" id="sl-salescost" min="0" max="7000" step="50" value="2500" disabled style="opacity:.4;cursor:not-allowed"><span class="val" id="out-salescost" style="color:#94A3B8">2.500 €</span></div>
       <hr class="divider">
       <div class="res-row"><span class="rl">MQL aus Paket</span><span class="rv blue" id="r-mqll">—</span></div>
       <div class="res-row" id="row-wc" style="display:none"><span class="rl">MQL aus On-Demand Webcast</span><span class="rv blue" id="r-mqwc">50</span></div>
@@ -534,11 +534,9 @@ input[type=range]:disabled::-webkit-slider-thumb{border-color:#94A3B8;box-shadow
         <div class="sl-row"><label>Impressions heise.de</label><input type="range" id="sl-imp" min="0" max="200000" step="5000" value="20000" oninput="calc()"><span class="val" id="out-imp">20.000</span></div>
         <div class="sl-row"><label>CTR (%)</label><input type="range" id="sl-ctr" min="0.5" max="5" step="0.1" value="1.5" oninput="calc()"><span class="val" id="out-ctr">1,5 %</span></div>
         <hr class="divider">
-        <div class="sl-row" id="row-disp-imp" style="display:none"><label>davon Display Ads</label><input type="range" id="sl-dispimp" min="5000" max="106000" step="1000" value="26455" oninput="onDispImpInput()"><span class="val" id="r-disp-imp">—</span></div>
         <div class="res-row" id="row-email-imp" style="display:none"><span class="rl">davon E-Mail-Reichweite</span><span class="rv" id="r-email-imp">—</span></div>
         <div class="res-row" id="row-banner-imp" style="display:none"><span class="rl">davon Kostenfreier Banner</span><span class="rv" id="r-banner-imp">—</span></div>
         <div class="res-row" id="row-gz-imp" style="display:none"><span class="rl">davon Ganzseitige Anzeige c't/iX</span><span class="rv" id="r-gz-imp">—</span></div>
-        <div class="res-row" id="row-newsletter-imp" style="display:none"><span class="rl">davon Newsletter Ads</span><span class="rv" id="r-newsletter-imp">—</span></div>
         <div class="res-row"><span class="rl">Besucher Technology Research Hub/Kundenwebseite</span><span class="rv blue" id="r-visit">—</span></div>
       </div>
     </div>
@@ -638,7 +636,7 @@ const DEFAULTS = {
   'sl-dv':30000,'sl-l2o':20,'sl-o2c':25,'sl-boost':5,
   'sl-imp':20000,'sl-ctr':1.5,
   'sl-days':10,'sl-rate':600,'sl-assets':8,'sl-ad':1.5,
-  'sl-cpll':50,'sl-dispb':5000,'sl-emailt':5,'sl-salescost':4000,'sl-costmql':200,
+  'sl-cpll':50,'sl-dispb':5000,'sl-emailt':5,'sl-salescost':2500,'sl-costmql':200,
   'sl-intent-roi':100,'sl-intent-success':8,'sl-intent-dv':30000,'sl-newslettert':1
 };
 const pkgBase={basic:12900,medium:16900,advanced:24900};
@@ -810,20 +808,12 @@ function applyImpBaseline(){
 
 // Richtwert, der mit der Dealgröße mitskaliert: ein 200k-Deal braucht mehr
 // Sales-Aufwand (Verhandlung, Individualisierung, Entscheiderrunden) als ein
-// 10k-Deal. Kalibriert so, dass der bisherige Default (30.000 € Dealwert)
-// weiterhin 4.000 € ergibt.
+// 10k-Deal — aber nicht proportional: Wurzel-Skalierung, damit der Zuwachs mit
+// steigendem Dealwert spürbar abflacht. Kalibriert auf 2.500 € bei 30.000 €
+// Dealwert (Standard-Voreinstellung).
 function computeSalesCostPerDeal(dv){
-  return Math.round((1000 + dv*0.10)/50)*50;
-}
-
-// Rückrichtung des Display-Budget↔Impressions-Paars: wird die Impressions-
-// Slider im Reichweite-ROI-Rechner direkt bewegt, rechnen wir auf ein Budget
-// zurück (TKP 189 €) und lassen calc() von dort aus alles neu berechnen.
-function onDispImpInput(){
-  const impVal=parseInt(document.getElementById('sl-dispimp').value)||0;
-  const budget=Math.max(1000,Math.min(20000,Math.round(impVal*189/1000/500)*500));
-  document.getElementById('sl-dispb').value=budget;
-  calc();
+  const raw = 2500 * Math.sqrt(dv/30000);
+  return Math.round(raw/50)*50;
 }
 
 // Reichweite ROI erscheint nur, wenn tatsächlich Impressions erzeugt werden:
@@ -951,7 +941,7 @@ function getTutSteps() {
     steps.push({
       target: '#addon-section',
       title: 'Add-ons aktivieren',
-      text: 'Buche optional weitere Leistungen: On-Demand Webcast (+50 MQL), Leadgenerierung, Display Ads, E-Mail-Reichweite oder Kostenfreier Banner. Jedes Add-on aktualisiert die Kalkulation sofort.',
+      text: 'Buche optional weitere Leistungen: On-Demand Webcast (+50 MQL), Leadgenerierung, Display Ads für Impressions, E-Mail-Reichweite oder Kostenfreier Banner. Jedes Add-on aktualisiert die Kalkulation sofort.',
       arrow: 'bottom'
     });
   }
@@ -1104,7 +1094,7 @@ function calc(){
   const boost=(boostEl)?parseInt(boostEl.value)/100:0.05;
   const impBase=parseInt(document.getElementById('sl-imp').value);
   const extras=computeAddonExtras();
-  const {dispBudget,dispImpressions,emailTkp,emailRecipients,bannerImpressions,gzImpressions,newsletterUnits,newsletterImpressions}=extras;
+  const {emailTkp,emailRecipients,bannerImpressions,gzImpressions,newsletterUnits}=extras;
   const imp=impBase+extras.impressions;
   const ctr=parseFloat(document.getElementById('sl-ctr').value)/100;
   const days=parseInt(document.getElementById('sl-days').value);
@@ -1117,17 +1107,9 @@ function calc(){
   document.getElementById('out-o2c').textContent=Math.round(o2c*100)+' %';
   if(boostEl&&true) document.getElementById('out-boost').textContent='+'+Math.round(boost*100)+' %';
   document.getElementById('out-imp').textContent=fmtI(imp);
-  // Display-Budget (Add-on) und Display-Ads-Impressions (Reichweite ROI) sind
-  // kongruent: budget→impressions läuft immer hier durch; das Zurückrechnen
-  // impressions→budget passiert in onDispImpInput().
-  const dispRow=document.getElementById('row-disp-imp');
-  if(dispRow){
-    dispRow.style.display=addonState.display?'':'none';
-    const dispImpEl=document.getElementById('sl-dispimp');
-    if(dispImpEl && document.activeElement!==dispImpEl) dispImpEl.value=dispImpressions;
-    document.getElementById('r-disp-imp').textContent=fmtI(dispImpressions);
-    if(typeof repaintSliders==='function') repaintSliders();
-  }
+  // Display Ads und Newsletter Ads haben ihre eigene Quelle (Budget-/Ausgaben-
+  // Slider im Add-on-Bereich) bereits als einzigen Regler — keine zusätzliche
+  // "davon"-Zeile hier, das wäre nur eine Kopie desselben Werts.
   const emailRow=document.getElementById('row-email-imp');
   if(emailRow){
     emailRow.style.display=addonState.email?'':'none';
@@ -1142,11 +1124,6 @@ function calc(){
   if(gzRow){
     gzRow.style.display=addonState.gz?'':'none';
     if(addonState.gz) document.getElementById('r-gz-imp').textContent='+'+fmtI(gzImpressions)+' Impressions · 250 garantierte Klicks (1.690 €)';
-  }
-  const newsletterRow=document.getElementById('row-newsletter-imp');
-  if(newsletterRow){
-    newsletterRow.style.display=addonState.newsletter?'':'none';
-    if(addonState.newsletter) document.getElementById('r-newsletter-imp').textContent='+'+fmtI(newsletterImpressions)+' Impressions ('+newsletterUnits+' Ausgabe'+(newsletterUnits===1?'':'n')+' × 800, TKP 85 €)';
   }
   if(document.getElementById('out-newslettert')) document.getElementById('out-newslettert').textContent=newsletterUnits+' Ausgabe'+(newsletterUnits===1?'':'n');
   document.getElementById('out-ctr').textContent=(ctr*100).toFixed(1).replace('.',',')+' %';
@@ -1231,11 +1208,11 @@ function calc(){
     const addonLabels={
       webcast:{label:'On-Demand Webcast',cost:currentPkg==='medium'?16900:0,unit:''},
       leadgen:{label:'Leadgenerierung',cost:(addonState.leadgen?parseInt(document.getElementById('sl-cpll').value)*150:0),unit:''},
-      display:{label:'Display Ads',cost:(addonState.display?parseInt(document.getElementById('sl-dispb').value):0),unit:''},
+      display:{label:'Display Ads f. Impr.',cost:(addonState.display?parseInt(document.getElementById('sl-dispb').value):0),unit:''},
       email:{label:'E-Mail-Reichweite',cost:(addonState.email?emailTkp*400+1500+1750:0),unit:''},
       banner:{label:'Kostenfreier Banner',cost:0,unit:'inklusive'},
       gz:{label:'Anzeige c\'t/iX',cost:1690,unit:''},
-      newsletter:{label:'Newsletter Ads',cost:(addonState.newsletter?newsletterUnits*85:0),unit:''},
+      newsletter:{label:'Newsletter Ads f. Impr.',cost:(addonState.newsletter?newsletterUnits*85:0),unit:''},
       messe:{label:'Messeaufsteller',cost:0,unit:'Preis folgt'},
       quote:{label:'Analysten-Zitat',cost:0,unit:'Preis folgt'},
       vinsights:{label:'Exkl. Vendor Insights',cost:3200,unit:''},
@@ -1464,10 +1441,10 @@ function updateContents(){
   // Add-ons (medium/advanced)
   if(addonState.webcast&&currentPkg==='medium') items.push({icon:'mic', text:'On-Demand Webcast (Add-on)', sub:'50 MQL via Video-on-Demand', color:'#059669'});
   if(addonState.leadgen) items.push({icon:'funnel', text:'Leadgenerierung (Add-on)', sub:fmtN(parseInt(document.getElementById('sl-cpll')||{value:50}).value||50)+' Leads', color:'#059669'});
-  if(addonState.display) items.push({icon:'chart-bar', text:'Display Ads (Add-on)', sub:'+ Impressions im heise-Netzwerk', color:'#165AA6'});
+  if(addonState.display) items.push({icon:'chart-bar', text:'Display Ads für Impressions (Add-on)', sub:'+ Impressions im heise-Netzwerk', color:'#165AA6'});
   if(addonState.email)   items.push({icon:'mail', text:'E-Mail-Kampagne (Add-on)', sub:'Direktansprache IT-Entscheider', color:'#165AA6'});
   if(addonState.messe)   items.push({icon:'map-pin', text:'Messeaufsteller (Add-on)', sub:'Preis folgt', color:'#165AA6'});
-  if(addonState.newsletter) items.push({icon:'newspaper', text:'Newsletter Ads (Add-on)', sub:'TKP 85 € · 800 Impr./Ausgabe', color:'#165AA6'});
+  if(addonState.newsletter) items.push({icon:'newspaper', text:'Newsletter Ads für Impressions (Add-on)', sub:'TKP 85 € · 800 Impr./Ausgabe', color:'#165AA6'});
   if(addonState.quote)   items.push({icon:'quote', text:'Analysten-Zitat, grafisch aufbereitet (Add-on)', sub:'Preis folgt', color:'#165AA6'});
   if(addonState.vinsights) items.push({icon:'clipboard-list', text:'Exklusive Vendor Insights (Add-on)', sub:'Ausgewählter Lösungsbereich inkl. Veröffentlichung', color:'#165AA6'});
   if(addonState.vbenchmark) items.push({icon:'chart-bar', text:'Individualisierter Vendor Benchmark (Add-on)', sub:'Integration in den Vendor Benchmark Report', color:'#165AA6'});
