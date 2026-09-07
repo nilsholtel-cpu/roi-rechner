@@ -643,7 +643,80 @@ const DEFAULTS = {
 };
 const pkgBase={basic:12900,medium:16900,advanced:24900};
 let pkgLeads={basic:0,medium:20,advanced:0};
-const addonState={webcast:false,leadgen:false,display:false,email:false,banner:false,gz:false,messe:false,quote:false,vinsights:false,vbenchmark:false,avideo:false,newsletter:false};
+
+// Jedes Paket ist eine eigene Berechnung: Add-on-Auswahl und ihre Mengen-Slider
+// werden pro Paket getrennt gespeichert. `addonState` zeigt immer auf den
+// Datensatz des aktuell gewählten Pakets (in setPkg umgehängt).
+function emptyAddonState(){
+  return {webcast:false,leadgen:false,display:false,email:false,banner:false,gz:false,messe:false,quote:false,vinsights:false,vbenchmark:false,avideo:false,newsletter:false};
+}
+const addonStateByPkg = {basic:emptyAddonState(),medium:emptyAddonState(),advanced:emptyAddonState()};
+let addonState = addonStateByPkg.medium;
+
+const ADDON_SLIDER_IDS = ['sl-cpll','sl-dispb','sl-emailt','sl-newslettert'];
+function defaultAddonSliders(){
+  const d={};
+  ADDON_SLIDER_IDS.forEach(id=>{ d[id]=DEFAULTS[id]; });
+  return d;
+}
+const addonSlidersByPkg = {basic:defaultAddonSliders(),medium:defaultAddonSliders(),advanced:defaultAddonSliders()};
+function saveAddonSliders(pkg){
+  const store=addonSlidersByPkg[pkg];
+  if(!store) return;
+  ADDON_SLIDER_IDS.forEach(id=>{ const el=document.getElementById(id); if(el) store[id]=parseFloat(el.value); });
+}
+function loadAddonSliders(pkg){
+  const store=addonSlidersByPkg[pkg];
+  if(!store) return;
+  ADDON_SLIDER_IDS.forEach(id=>{ const el=document.getElementById(id); if(el && store[id]!=null) el.value=store[id]; });
+  if(typeof repaintSliders==='function') repaintSliders();
+}
+// Spiegelt addonState (des jetzt aktiven Pakets) in die Add-on-Kacheln und die
+// zugehörigen Slider-Zeilen — unabhängig davon, welches Paket zuvor aktiv war.
+function syncAddonUI(){
+  Object.keys(addonState).forEach(key=>{
+    const card=document.getElementById('ao-'+key);
+    if(card) card.classList.toggle('on', !!addonState[key]);
+  });
+  const show=k=>addonState[k]?'':'none';
+  const set=(id,val)=>{ const el=document.getElementById(id); if(el) el.style.display=val; };
+  set('leadgen-row-shared', show('leadgen'));
+  set('row-cpl-r', show('leadgen'));
+  set('display-row-shared', show('display'));
+  set('email-row-shared', show('email'));
+  set('newsletter-row-shared', show('newsletter'));
+  const anySlider = addonState.leadgen||addonState.display||addonState.email||addonState.newsletter;
+  set('shared-sliders', anySlider ? 'block' : 'none');
+}
+// On-Demand Webcast & Video-Analystenstatement sind in Advanced bereits
+// inklusive — dort immer gesperrt, unabhängig vom gespeicherten Zustand.
+function applyPackageAddonLocks(){
+  if(currentPkg==='advanced'){
+    addonState.webcast=false;
+    document.getElementById('ao-webcast').classList.remove('on');
+    document.getElementById('ao-webcast').style.opacity='0.4';
+    document.getElementById('ao-webcast').style.pointerEvents='none';
+    document.getElementById('ao-webcast').querySelector('.addon-price').textContent='im Paket enthalten';
+    document.getElementById('row-wc').style.display='';
+
+    addonState.avideo=false;
+    document.getElementById('ao-avideo').classList.remove('on');
+    document.getElementById('ao-avideo').style.opacity='0.4';
+    document.getElementById('ao-avideo').style.pointerEvents='none';
+    document.getElementById('ao-avideo-price').textContent='im Paket enthalten';
+  } else {
+    if(currentPkg==='medium') {
+      document.getElementById('ao-webcast').style.opacity='';
+      document.getElementById('ao-webcast').style.pointerEvents='';
+      document.getElementById('ao-webcast').querySelector('.addon-price').textContent='+50 MQL (On-Demand)';
+      if(!addonState.webcast) document.getElementById('row-wc').style.display='none';
+    }
+    document.getElementById('ao-avideo').style.opacity='';
+    document.getElementById('ao-avideo').style.pointerEvents='';
+    document.getElementById('ao-avideo-price').textContent='850 €';
+  }
+}
+
 let currentPkg='medium';
 let currentMode='intern';
 let currentMediumMode='mql'; // 'mql' or 'intent'
@@ -673,7 +746,14 @@ function applyMediumMode(){
 }
 
 function setPkg(p){
+  // Jedes Paket rechnet unabhängig: Add-on-Slider des alten Pakets sichern,
+  // Add-on-Auswahl + Slider des neuen Pakets laden.
+  saveAddonSliders(currentPkg);
   currentPkg=p;
+  addonState=addonStateByPkg[p];
+  loadAddonSliders(p);
+  syncAddonUI();
+
   ['basic','medium','advanced'].forEach(x=>document.getElementById('tb-'+x).classList.toggle('active',x===p));
 
   // Show/hide addon section vs builder
@@ -715,31 +795,7 @@ function setPkg(p){
 
   if(p==='medium') applyMediumMode();
 
-  if(p==='advanced'){
-    addonState.webcast=false;
-    document.getElementById('ao-webcast').classList.remove('on');
-    document.getElementById('ao-webcast').style.opacity='0.4';
-    document.getElementById('ao-webcast').style.pointerEvents='none';
-    document.getElementById('ao-webcast').querySelector('.addon-price').textContent='im Paket enthalten';
-    document.getElementById('row-wc').style.display='';
-
-    // Advanced enthält das Video-Analystenstatement bereits im Paket
-    addonState.avideo=false;
-    document.getElementById('ao-avideo').classList.remove('on');
-    document.getElementById('ao-avideo').style.opacity='0.4';
-    document.getElementById('ao-avideo').style.pointerEvents='none';
-    document.getElementById('ao-avideo-price').textContent='im Paket enthalten';
-  } else {
-    if(p==='medium') {
-      document.getElementById('ao-webcast').style.opacity='';
-      document.getElementById('ao-webcast').style.pointerEvents='';
-      document.getElementById('ao-webcast').querySelector('.addon-price').textContent='+50 MQL (On-Demand)';
-      if(!addonState.webcast) document.getElementById('row-wc').style.display='none';
-    }
-    document.getElementById('ao-avideo').style.opacity='';
-    document.getElementById('ao-avideo').style.pointerEvents='';
-    document.getElementById('ao-avideo-price').textContent='850 €';
-  }
+  applyPackageAddonLocks();
 
   calc();
 }
@@ -826,21 +882,16 @@ function resetAll(){
     if(el) el.value=val;
   });
   applyImpBaseline();
-  Object.keys(addonState).forEach(k=>{
-    addonState[k]=false;
-    const el=document.getElementById('ao-'+k);
-    if(el) el.classList.remove('on');
+
+  // Reset betrifft alle drei Pakete, nicht nur das gerade aktive.
+  ['basic','medium','advanced'].forEach(pkg=>{
+    addonStateByPkg[pkg]=emptyAddonState();
+    addonSlidersByPkg[pkg]=defaultAddonSliders();
   });
-  ['leadgen-row-shared','display-row-shared','email-row-shared','newsletter-row-shared'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el) el.style.display='none';
-  });
-  const ss=document.getElementById('shared-sliders');
-  if(ss) ss.style.display='none';
-  ['leadgen-row','display-row','email-row','row-cpl-r'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el) el.style.display='none';
-  });
+  addonState=addonStateByPkg[currentPkg];
+  syncAddonUI();
+  applyPackageAddonLocks();
+
   currentMediumMode='mql';
   document.getElementById('mopt-mql').classList.add('active');
   document.getElementById('mopt-intent').classList.remove('active');
