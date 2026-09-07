@@ -1053,8 +1053,6 @@ window.addEventListener('load', () => {
   } catch(e) {}
 });
 
-setPkg('medium');
-
 function fmtE(n){return Math.round(n).toLocaleString('de-DE')+' €';}
 function fmtN(n){return n.toLocaleString('de-DE',{minimumFractionDigits:1,maximumFractionDigits:1});}
 function fmtI(n){return Math.round(n).toLocaleString('de-DE');}
@@ -1383,6 +1381,16 @@ function buildPrintContent(st) {
   document.getElementById('pr-params').innerHTML=params.map(p=>`<div class="print-param"><span class="print-param-label">${p[0]}</span><span class="print-param-val">${p[1]}</span></div>`).join('');
 }
 
+// Echte Produktfotos statt Icon für einzelne Paketinhalt-Zeilen (aus der
+// PUR-HC-2027-Präsentation zugeschnitten) — gleiche 16x16-Box wie die SVG-
+// Icons, damit sich die Zeilenhöhe nicht ändert.
+const PHOTO_ICONS = {
+  'urkunde-photo': 'assets/urkunde.png',
+  'vendor-benchmark-photo': 'assets/vendor-benchmark.png',
+  'messeaufsteller-photo': 'assets/messeaufsteller.png',
+  'bestin-photo': 'assets/bestin-badge.png'
+};
+
 function updateContents(){
   const list = document.getElementById('contents-list');
   const empty = document.getElementById('contents-empty');
@@ -1393,8 +1401,8 @@ function updateContents(){
 
   // Basisleistungen (alle Pakete)
   items.push({icon:'check-circle', text:'Vermarktungsrecht / Nutzungsrecht', sub:'Diamant-Grafik + Badge zur Vermarktung', color:'#0C7DEC'});
-  items.push({icon:'chart-bar', text:'Vendor Benchmark', sub:'Alle Segmentergebnisse — intern', color:'#022B58'});
-  items.push({icon:'medal', text:'Urkunde + Award-Badge', sub:'Intern & extern verwendbar', color:'#B45309'});
+  items.push({icon:'vendor-benchmark-photo', text:'Vendor Benchmark', sub:'Alle Segmentergebnisse — intern', color:'#022B58'});
+  items.push({icon:'urkunde-photo', text:'Urkunde + Award-Badge', sub:'Intern & extern verwendbar', color:'#B45309'});
 
   if(currentPkg==='medium'||currentPkg==='advanced'){
     items.push({icon:'clipboard-list', text:'Individueller Vendor Benchmark + Vendor Insights', sub:'Detaillierte Deep Insights — extern verwendbar, inkl. Management-Statements & Testimonials', color:'#165AA6'});
@@ -1420,8 +1428,8 @@ function updateContents(){
   if(addonState.leadgen) items.push({icon:'funnel', text:'Leadgenerierung (Add-on)', sub:fmtI(parseInt(document.getElementById('sl-cpll')||{value:50}).value||50)+' Leads', color:'#059669'});
   if(addonState.display) items.push({icon:'chart-bar', text:'Display Ads für Impressions (Add-on)', sub:'+ Impressions im heise-Netzwerk', color:'#165AA6'});
   if(addonState.email)   items.push({icon:'mail', text:'E-Mail-Kampagne (Add-on)', sub:'Direktansprache IT-Entscheider', color:'#165AA6'});
-  if(addonState.messe)   items.push({icon:'map-pin', text:'Messeaufsteller (Add-on)', sub:'100 €', color:'#165AA6'});
-  if(addonState.bestin)  items.push({icon:'medal', text:'Best-In Badges (Goodie)', sub:'Kostenlos inklusive', color:'#B45309'});
+  if(addonState.messe)   items.push({icon:'messeaufsteller-photo', text:'Messeaufsteller (Add-on)', sub:'100 €', color:'#165AA6'});
+  if(addonState.bestin)  items.push({icon:'bestin-photo', text:'Best-In Badges (Goodie)', sub:'Kostenlos inklusive', color:'#B45309'});
   if(addonState.newsletter) items.push({icon:'newspaper', text:'Newsletter Ads für Impressions (Add-on)', sub:'TKP 85 € · 800 Impr./Ausgabe', color:'#165AA6'});
   if(addonState.quote)   items.push({icon:'quote', text:'Analysten-Zitat, grafisch aufbereitet (Add-on)', sub:'350 €', color:'#165AA6'});
   if(addonState.vinsights) items.push({icon:'clipboard-list', text:'Exklusive Vendor Insights (Add-on)', sub:'Ausgewählter Lösungsbereich inkl. Veröffentlichung', color:'#165AA6'});
@@ -1439,7 +1447,10 @@ function updateContents(){
     const el=document.createElement('div');
     el.className='content-item';
     el.style.cssText='display:flex;align-items:flex-start;gap:9px;padding:7px 9px;border-radius:8px;background:#F8FAFC;border:1px solid #F1F5F9;margin-bottom:4px;transition:background .15s';
-    el.innerHTML='<svg class="icon" style="width:16px;height:16px;margin-top:1px;color:'+item.color+'"><use href="#ic-'+item.icon+'"/></svg>'
+    const iconHtml = PHOTO_ICONS[item.icon]
+      ? '<img src="'+PHOTO_ICONS[item.icon]+'" alt="" style="width:16px;height:16px;margin-top:1px;border-radius:4px;object-fit:cover;flex-shrink:0">'
+      : '<svg class="icon" style="width:16px;height:16px;margin-top:1px;color:'+item.color+'"><use href="#ic-'+item.icon+'"/></svg>';
+    el.innerHTML=iconHtml
       +'<div><div style="font-size:11.5px;font-weight:600;color:'+item.color+'">'+item.text+'</div>'
       +'<div style="font-size:10px;color:#64748B">'+item.sub+'</div></div>';
     list.appendChild(el);
