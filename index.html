@@ -502,7 +502,7 @@ input[type=range]:disabled::-webkit-slider-thumb{border-color:#94A3B8;box-shadow
       <div class="sl-row"><label>Opportunity → Close (%)</label><input type="range" id="sl-o2c" min="5" max="50" step="1" value="25" oninput="calc()"><span class="val" id="out-o2c">25 %</span></div>
       <div class="sl-row"><label>Close-Rate-Boost durch PUR-Titel (+%)</label><input type="range" id="sl-boost" min="0" max="20" step="1" value="5" oninput="calc()"><span class="val" id="out-boost">+5 %</span></div>
       <div class="sl-row" style="margin-top:4px"><label style="color:#94A3B8">Ø Sales-Kosten pro MQL <span style="font-size:10px;background:#F1F5F9;padding:1px 6px;border-radius:4px;margin-left:4px">Richtwert</span></label><input type="range" id="sl-costmql" min="0" max="2000" step="50" value="200" disabled style="opacity:.4;cursor:not-allowed"><span class="val" id="out-costmql" style="color:#94A3B8">200 €</span></div>
-      <div class="sl-row"><label style="color:#94A3B8">Ø Sales-Kosten pro gewonnenem Deal <span style="font-size:10px;background:#F1F5F9;padding:1px 6px;border-radius:4px;margin-left:4px">Richtwert</span></label><input type="range" id="sl-salescost" min="0" max="20000" step="250" value="4000" disabled style="opacity:.4;cursor:not-allowed"><span class="val" id="out-salescost" style="color:#94A3B8">4.000 €</span></div>
+      <div class="sl-row"><label style="color:#94A3B8">Ø Sales-Kosten pro gewonnenem Deal <span style="font-size:10px;background:#F1F5F9;padding:1px 6px;border-radius:4px;margin-left:4px" title="Skaliert automatisch mit dem Ø Deal-Wert">Richtwert · skaliert mit Dealwert</span></label><input type="range" id="sl-salescost" min="0" max="21000" step="250" value="4000" disabled style="opacity:.4;cursor:not-allowed"><span class="val" id="out-salescost" style="color:#94A3B8">4.000 €</span></div>
       <hr class="divider">
       <div class="res-row"><span class="rl">MQL aus Paket</span><span class="rv blue" id="r-mqll">—</span></div>
       <div class="res-row" id="row-wc" style="display:none"><span class="rl">MQL aus On-Demand Webcast</span><span class="rv blue" id="r-mqwc">50</span></div>
@@ -534,12 +534,12 @@ input[type=range]:disabled::-webkit-slider-thumb{border-color:#94A3B8;box-shadow
         <div class="sl-row"><label>Impressions heise.de</label><input type="range" id="sl-imp" min="0" max="200000" step="5000" value="20000" oninput="calc()"><span class="val" id="out-imp">20.000</span></div>
         <div class="sl-row"><label>CTR (%)</label><input type="range" id="sl-ctr" min="0.5" max="5" step="0.1" value="1.5" oninput="calc()"><span class="val" id="out-ctr">1,5 %</span></div>
         <hr class="divider">
-        <div class="res-row" id="row-disp-imp" style="display:none"><span class="rl">davon Display Ads</span><span class="rv" id="r-disp-imp">—</span></div>
+        <div class="sl-row" id="row-disp-imp" style="display:none"><label>davon Display Ads</label><input type="range" id="sl-dispimp" min="5000" max="106000" step="1000" value="26455" oninput="onDispImpInput()"><span class="val" id="r-disp-imp">—</span></div>
         <div class="res-row" id="row-email-imp" style="display:none"><span class="rl">davon E-Mail-Reichweite</span><span class="rv" id="r-email-imp">—</span></div>
         <div class="res-row" id="row-banner-imp" style="display:none"><span class="rl">davon Kostenfreier Banner</span><span class="rv" id="r-banner-imp">—</span></div>
         <div class="res-row" id="row-gz-imp" style="display:none"><span class="rl">davon Ganzseitige Anzeige c't/iX</span><span class="rv" id="r-gz-imp">—</span></div>
         <div class="res-row" id="row-newsletter-imp" style="display:none"><span class="rl">davon Newsletter Ads</span><span class="rv" id="r-newsletter-imp">—</span></div>
-        <div class="res-row"><span class="rl">Besucher Technology Research Hub</span><span class="rv blue" id="r-visit">—</span></div>
+        <div class="res-row"><span class="rl">Besucher Technology Research Hub/Kundenwebseite</span><span class="rv blue" id="r-visit">—</span></div>
       </div>
     </div>
 
@@ -806,6 +806,24 @@ function applyImpBaseline(){
   if(!el) return;
   el.value = currentPkg==='basic' ? 0 : (DEFAULTS['sl-imp']||20000);
   if(typeof repaintSliders==='function') repaintSliders();
+}
+
+// Richtwert, der mit der Dealgröße mitskaliert: ein 200k-Deal braucht mehr
+// Sales-Aufwand (Verhandlung, Individualisierung, Entscheiderrunden) als ein
+// 10k-Deal. Kalibriert so, dass der bisherige Default (30.000 € Dealwert)
+// weiterhin 4.000 € ergibt.
+function computeSalesCostPerDeal(dv){
+  return Math.round((1000 + dv*0.10)/50)*50;
+}
+
+// Rückrichtung des Display-Budget↔Impressions-Paars: wird die Impressions-
+// Slider im Reichweite-ROI-Rechner direkt bewegt, rechnen wir auf ein Budget
+// zurück (TKP 189 €) und lassen calc() von dort aus alles neu berechnen.
+function onDispImpInput(){
+  const impVal=parseInt(document.getElementById('sl-dispimp').value)||0;
+  const budget=Math.max(1000,Math.min(20000,Math.round(impVal*189/1000/500)*500));
+  document.getElementById('sl-dispb').value=budget;
+  calc();
 }
 
 // Reichweite ROI erscheint nur, wenn tatsächlich Impressions erzeugt werden:
@@ -1099,10 +1117,16 @@ function calc(){
   document.getElementById('out-o2c').textContent=Math.round(o2c*100)+' %';
   if(boostEl&&true) document.getElementById('out-boost').textContent='+'+Math.round(boost*100)+' %';
   document.getElementById('out-imp').textContent=fmtI(imp);
+  // Display-Budget (Add-on) und Display-Ads-Impressions (Reichweite ROI) sind
+  // kongruent: budget→impressions läuft immer hier durch; das Zurückrechnen
+  // impressions→budget passiert in onDispImpInput().
   const dispRow=document.getElementById('row-disp-imp');
   if(dispRow){
     dispRow.style.display=addonState.display?'':'none';
-    document.getElementById('r-disp-imp').textContent='+'+fmtI(dispImpressions)+' ('+fmtE(dispBudget)+' @ TKP 189 €)';
+    const dispImpEl=document.getElementById('sl-dispimp');
+    if(dispImpEl && document.activeElement!==dispImpEl) dispImpEl.value=dispImpressions;
+    document.getElementById('r-disp-imp').textContent=fmtI(dispImpressions);
+    if(typeof repaintSliders==='function') repaintSliders();
   }
   const emailRow=document.getElementById('row-email-imp');
   if(emailRow){
@@ -1159,7 +1183,10 @@ function calc(){
   const deals=opps*effClose;
   const rev=deals*dv;
   const costmql=parseInt(document.getElementById('sl-costmql').value);
-  const salescost=parseInt(document.getElementById('sl-salescost').value);
+  const salescostEl=document.getElementById('sl-salescost');
+  salescostEl.value=computeSalesCostPerDeal(dv);
+  if(typeof repaintSliders==='function') repaintSliders();
+  const salescost=parseInt(salescostEl.value);
   const costMqlTotal=mqtot*costmql;
   const costDealTotal=deals*salescost;
   const totalSalesCost=costMqlTotal+costDealTotal;
@@ -1371,7 +1398,7 @@ function buildPrintContent(st) {
   const visRows=[
     ['Impressions heise.de',fmtI(st.imp)],
     ['CTR',(st.ctr*100).toFixed(1).replace('.',',')+' %'],
-    ['Besucher Technology Research Hub',fmtI(st.visitors),'highlight'],
+    ['Besucher Technology Research Hub/Kundenwebseite',fmtI(st.visitors),'highlight'],
   ];
   document.getElementById('pr-table-vis').innerHTML=visRows.map(r=>`<tr class="${r[2]||''}"><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('');
 
@@ -1592,7 +1619,7 @@ async function exportPPTX(btn) {
     const visRows=[
       ['Impressions heise.de (Basis)',fmtI(st.imp)],
       ['CTR',(st.ctr*100).toFixed(1)+' %'],
-      ['Besucher Technology Research Hub',fmtI(st.visitors)],
+      ['Besucher Technology Research Hub/Kundenwebseite',fmtI(st.visitors)],
     ];
     addRows(s1,visRows,c2x,c2w,secY1+0.26,TC.blauHell);
 
