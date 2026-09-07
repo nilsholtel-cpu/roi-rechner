@@ -276,6 +276,7 @@ input[type=range]:disabled::-webkit-slider-thumb{border-color:#94A3B8;box-shadow
 <symbol id="ic-refresh" viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 0 1 14.2-6.3L20 8"/><polyline points="20 3.5 20 8 15.5 8"/><path d="M20.5 12a8.5 8.5 0 0 1-14.2 6.3L4 16"/><polyline points="4 20.5 4 16 8.5 16"/></symbol>
 <symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="12" y1="7.5" x2="12" y2="7.51"/></symbol>
 <symbol id="ic-map-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.7 7-11.5A7 7 0 0 0 5 9.5C5 14.3 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></symbol>
+<symbol id="ic-quote" viewBox="0 0 24 24"><path d="M7.5 9c-2 0-3.5 1.7-3.5 4s1.5 4 3.3 4c.2 0 .5 0 .7-.1C7.5 18.8 6 20.3 4 20.3"/><path d="M16.5 9c-2 0-3.5 1.7-3.5 4s1.5 4 3.3 4c.2 0 .5 0 .7-.1-.5 1.9-2 3.4-4 3.4"/></symbol>
 </defs>
 </svg>
 
@@ -391,10 +392,15 @@ input[type=range]:disabled::-webkit-slider-thumb{border-color:#94A3B8;box-shadow
       <div class="addon-card" id="ao-webcast" onclick="toggleAddon('webcast')"><div class="addon-name">On-Demand Webcast</div><div class="addon-price">+50 MQL</div></div>
       <div class="addon-card" id="ao-leadgen" onclick="toggleAddon('leadgen')"><div class="addon-name">Leadgenerierung</div><div class="addon-price">variable MQL</div></div>
       <div class="addon-card" id="ao-display" onclick="toggleAddon('display')"><div class="addon-name">Display Ads</div><div class="addon-price">+ Impressions</div></div>
-      <div class="addon-card" id="ao-email" onclick="toggleAddon('email')"><div class="addon-name">E-Mail-Reichweite</div><div class="addon-price" id="ao-email-price">400 € / TKP</div></div>
+      <div class="addon-card" id="ao-email" onclick="toggleAddon('email')"><div class="addon-name">E-Mail-Reichweite</div><div class="addon-price" id="ao-email-price">400 € / TKP + 1.500 € Reporting + 1.750 € Remindermail</div></div>
       <div class="addon-card" id="ao-banner" onclick="toggleAddon('banner')"><div class="addon-name">Kostenfreier Banner</div><div class="addon-price">0 € · 50.000 Impr. (2× 7 Tage heise.de)</div></div>
       <div class="addon-card" id="ao-gz" onclick="toggleAddon('gz')"><div class="addon-name">Ganzseitige Anzeige c't/iX</div><div class="addon-price">1.690 € · +50.000 Impressions</div></div>
+      <div class="addon-card" id="ao-newsletter" onclick="toggleAddon('newsletter')"><div class="addon-name">Newsletter Ads</div><div class="addon-price">TKP 85 € · 800 Impr./Ausgabe</div></div>
       <div class="addon-card" id="ao-messe" onclick="toggleAddon('messe')"><div class="addon-name">Messeaufsteller</div><div class="addon-price">Preis folgt</div></div>
+      <div class="addon-card" id="ao-quote" onclick="toggleAddon('quote')"><div class="addon-name">Analysten-Zitat, grafisch aufbereitet</div><div class="addon-price">Preis folgt</div></div>
+      <div class="addon-card" id="ao-vinsights" onclick="toggleAddon('vinsights')"><div class="addon-name">Exklusive Vendor Insights</div><div class="addon-price">3.200 €</div></div>
+      <div class="addon-card" id="ao-vbenchmark" onclick="toggleAddon('vbenchmark')"><div class="addon-name">Individualisierter Vendor Benchmark</div><div class="addon-price">950 €</div></div>
+      <div class="addon-card" id="ao-avideo" onclick="toggleAddon('avideo')"><div class="addon-name">Video-Analystenstatement</div><div class="addon-price" id="ao-avideo-price">850 €</div></div>
     </div>
     <!-- sliders moved to shared-sliders block -->
   </div>
@@ -404,6 +410,7 @@ input[type=range]:disabled::-webkit-slider-thumb{border-color:#94A3B8;box-shadow
     <div id="leadgen-row-shared" class="sl-row" style="display:none"><label>Anzahl Leads (Leadgenerierung)</label><input type="range" id="sl-cpll" min="10" max="200" step="10" value="50" oninput="calc()"><span class="val" id="out-cpll">50</span></div>
     <div id="display-row-shared" class="sl-row" style="display:none"><label>Display-Budget (€)</label><input type="range" id="sl-dispb" min="1000" max="20000" step="500" value="5000" oninput="calc()"><span class="val" id="out-dispb">5.000 €</span></div>
     <div id="email-row-shared" class="sl-row" style="display:none"><label>E-Mail Versandgröße (TKP-Einheiten)</label><input type="range" id="sl-emailt" min="1" max="20" step="1" value="5" oninput="calc()"><span class="val" id="out-emailt">5 TKP = 5.000</span></div>
+    <div id="newsletter-row-shared" class="sl-row" style="display:none"><label>Anzahl Newsletter-Ausgaben</label><input type="range" id="sl-newslettert" min="1" max="10" step="1" value="1" oninput="calc()"><span class="val" id="out-newslettert">1 Ausgabe</span></div>
   </div>
 
   <!-- INDIVIDUELL BAUKASTEN -->
@@ -508,6 +515,7 @@ input[type=range]:disabled::-webkit-slider-thumb{border-color:#94A3B8;box-shadow
         <div class="res-row" id="row-email-imp" style="display:none"><span class="rl">davon E-Mail-Reichweite</span><span class="rv" id="r-email-imp">—</span></div>
         <div class="res-row" id="row-banner-imp" style="display:none"><span class="rl">davon Kostenfreier Banner</span><span class="rv" id="r-banner-imp">—</span></div>
         <div class="res-row" id="row-gz-imp" style="display:none"><span class="rl">davon Ganzseitige Anzeige c't/iX</span><span class="rv" id="r-gz-imp">—</span></div>
+        <div class="res-row" id="row-newsletter-imp" style="display:none"><span class="rl">davon Newsletter Ads</span><span class="rv" id="r-newsletter-imp">—</span></div>
         <div class="res-row"><span class="rl">Besucher Technology Research Hub</span><span class="rv blue" id="r-visit">—</span></div>
       </div>
     </div>
@@ -608,11 +616,11 @@ const DEFAULTS = {
   'sl-imp':20000,'sl-ctr':1.5,
   'sl-days':10,'sl-rate':600,'sl-assets':8,'sl-ad':1.5,
   'sl-cpll':50,'sl-dispb':5000,'sl-emailt':5,'sl-salescost':4000,'sl-costmql':200,
-  'sl-intent-roi':100,'sl-intent-success':8,'sl-intent-dv':30000
+  'sl-intent-roi':100,'sl-intent-success':8,'sl-intent-dv':30000,'sl-newslettert':1
 };
 const pkgBase={basic:12900,medium:16900,advanced:24900};
 let pkgLeads={basic:0,medium:20,advanced:0};
-const addonState={webcast:false,leadgen:false,display:false,email:false,banner:false,gz:false,messe:false};
+const addonState={webcast:false,leadgen:false,display:false,email:false,banner:false,gz:false,messe:false,quote:false,vinsights:false,vbenchmark:false,avideo:false,newsletter:false};
 let currentPkg='medium';
 let currentMode='intern';
 let currentMediumMode='mql'; // 'mql' or 'intent'
@@ -649,7 +657,7 @@ function setPkg(p){
   const isBasic = p==='basic';
   document.getElementById('addon-section').style.display = 'block';
   // Hide Medium/Advanced-only addons for Basic
-  ['ao-webcast','ao-leadgen','ao-display','ao-email','ao-gz','ao-messe'].forEach(id=>{
+  ['ao-webcast','ao-leadgen','ao-display','ao-email','ao-gz','ao-newsletter'].forEach(id=>{
     const el=document.getElementById(id);
     if(el) el.style.display = isBasic ? 'none' : '';
   });
@@ -691,11 +699,23 @@ function setPkg(p){
     document.getElementById('ao-webcast').style.pointerEvents='none';
     document.getElementById('ao-webcast').querySelector('.addon-price').textContent='im Paket enthalten';
     document.getElementById('row-wc').style.display='';
-  } else if(p==='medium') {
-    document.getElementById('ao-webcast').style.opacity='';
-    document.getElementById('ao-webcast').style.pointerEvents='';
-    document.getElementById('ao-webcast').querySelector('.addon-price').textContent='+50 MQL (On-Demand)';
-    if(!addonState.webcast) document.getElementById('row-wc').style.display='none';
+
+    // Advanced enthält das Video-Analystenstatement bereits im Paket
+    addonState.avideo=false;
+    document.getElementById('ao-avideo').classList.remove('on');
+    document.getElementById('ao-avideo').style.opacity='0.4';
+    document.getElementById('ao-avideo').style.pointerEvents='none';
+    document.getElementById('ao-avideo-price').textContent='im Paket enthalten';
+  } else {
+    if(p==='medium') {
+      document.getElementById('ao-webcast').style.opacity='';
+      document.getElementById('ao-webcast').style.pointerEvents='';
+      document.getElementById('ao-webcast').querySelector('.addon-price').textContent='+50 MQL (On-Demand)';
+      if(!addonState.webcast) document.getElementById('row-wc').style.display='none';
+    }
+    document.getElementById('ao-avideo').style.opacity='';
+    document.getElementById('ao-avideo').style.pointerEvents='';
+    document.getElementById('ao-avideo-price').textContent='850 €';
   }
 
   calc();
@@ -712,9 +732,38 @@ function applyImpBaseline(){
 // Reichweite ROI erscheint nur, wenn tatsächlich Impressions erzeugt werden:
 // Advanced hat Display Ads inklusive; Basic/Medium erst durch ein passendes Add-on.
 function updateReachVisibility(){
-  const show = currentPkg==='advanced' || addonState.banner || addonState.display || addonState.gz || addonState.email;
+  const show = currentPkg==='advanced' || addonState.banner || addonState.display || addonState.gz || addonState.email || addonState.newsletter;
   const card = document.getElementById('card-visibility');
   if(card) card.style.display = show ? '' : 'none';
+}
+
+// Einzige Quelle für Add-on-Kosten und -Impressions — von calc() UND getState()
+// (PDF/PPTX-Export) genutzt, damit beide niemals auseinanderlaufen.
+// Preise ohne Kundenfreigabe stehen als "Preis folgt" (Kosten 0) in der UI:
+// Messeaufsteller, Analysten-Zitat.
+function computeAddonExtras(){
+  const dispBudget = addonState.display ? parseInt(document.getElementById('sl-dispb').value) : 0;
+  const dispImpressions = addonState.display ? Math.round(dispBudget/189*1000) : 0;
+  const emailTkp = addonState.email ? parseInt(document.getElementById('sl-emailt').value) : 0;
+  const emailRecipients = emailTkp*1000;
+  const bannerImpressions = addonState.banner ? 50000 : 0; // heise.de, 2× 7 Tage
+  const gzImpressions = addonState.gz ? 50000 : 0;
+  const newsletterUnits = addonState.newsletter ? (parseInt(document.getElementById('sl-newslettert').value)||1) : 0;
+  const newsletterImpressions = newsletterUnits*800;
+
+  let cost = 0;
+  if(addonState.webcast && currentPkg==='medium') cost += 16900;
+  if(addonState.leadgen) cost += parseInt(document.getElementById('sl-cpll').value)*150;
+  if(addonState.display) cost += dispBudget;
+  if(addonState.email) cost += emailTkp*400 + 1500 + 1750; // + Reporting (1.500 €) + Remindermail (1.750 €)
+  if(addonState.gz) cost += 1690;
+  if(addonState.newsletter) cost += newsletterUnits*85;
+  if(addonState.vinsights) cost += 3200;
+  if(addonState.vbenchmark) cost += 950;
+  if(addonState.avideo && currentPkg!=='advanced') cost += 850;
+
+  const impressions = dispImpressions + emailRecipients + bannerImpressions + gzImpressions + newsletterImpressions;
+  return {cost, impressions, dispBudget, dispImpressions, emailTkp, emailRecipients, bannerImpressions, gzImpressions, newsletterUnits, newsletterImpressions};
 }
 
 function toggleAddon(a){
@@ -724,6 +773,7 @@ function toggleAddon(a){
   if(a==='leadgen'){document.getElementById('shared-sliders').style.display='block';document.getElementById('leadgen-row-shared').style.display=s;document.getElementById('row-cpl-r').style.display=s;}
   if(a==='display'){document.getElementById('shared-sliders').style.display='block';document.getElementById('display-row-shared').style.display=s;}
   if(a==='email'){document.getElementById('shared-sliders').style.display='block';document.getElementById('email-row-shared').style.display=s;}
+  if(a==='newsletter'){document.getElementById('shared-sliders').style.display='block';document.getElementById('newsletter-row-shared').style.display=s;}
   if(a==='webcast')document.getElementById('row-wc').style.display=s;
   if(currentPkg==='medium') applyMediumMode();
   calc();
@@ -758,7 +808,7 @@ function resetAll(){
     const el=document.getElementById('ao-'+k);
     if(el) el.classList.remove('on');
   });
-  ['leadgen-row-shared','display-row-shared','email-row-shared'].forEach(id=>{
+  ['leadgen-row-shared','display-row-shared','email-row-shared','newsletter-row-shared'].forEach(id=>{
     const el=document.getElementById(id);
     if(el) el.style.display='none';
   });
@@ -961,15 +1011,9 @@ function calc(){
   const boostEl=document.getElementById('sl-boost');
   const boost=(boostEl)?parseInt(boostEl.value)/100:0.05;
   const impBase=parseInt(document.getElementById('sl-imp').value);
-  const dispBudget=addonState.display?parseInt(document.getElementById('sl-dispb').value):0;
-  const dispImpressions=addonState.display?Math.round(dispBudget/189*1000):0;
-  const emailTkp=addonState.email?parseInt(document.getElementById('sl-emailt').value):0;
-  const emailRecipients=emailTkp*1000;
-  // Banner: kostenfreier Banner auf heise.de, 2× 7 Tage – 50.000 Impressions
-  const bannerImpressions=addonState.banner?50000:0;
-  // Ganzseitige Anzeige c't/iX: 50.000 Impressions, 250 garantierte Klicks, 1.690 €
-  const gzImpressions=addonState.gz?50000:0;
-  const imp=impBase+dispImpressions+emailRecipients+bannerImpressions+gzImpressions;
+  const extras=computeAddonExtras();
+  const {dispBudget,dispImpressions,emailTkp,emailRecipients,bannerImpressions,gzImpressions,newsletterUnits,newsletterImpressions}=extras;
+  const imp=impBase+extras.impressions;
   const ctr=parseFloat(document.getElementById('sl-ctr').value)/100;
   const days=parseInt(document.getElementById('sl-days').value);
   const rate=parseInt(document.getElementById('sl-rate').value);
@@ -1001,6 +1045,12 @@ function calc(){
     gzRow.style.display=addonState.gz?'':'none';
     if(addonState.gz) document.getElementById('r-gz-imp').textContent='+'+fmtI(gzImpressions)+' Impressions · 250 garantierte Klicks (1.690 €)';
   }
+  const newsletterRow=document.getElementById('row-newsletter-imp');
+  if(newsletterRow){
+    newsletterRow.style.display=addonState.newsletter?'':'none';
+    if(addonState.newsletter) document.getElementById('r-newsletter-imp').textContent='+'+fmtI(newsletterImpressions)+' Impressions ('+newsletterUnits+' Ausgabe'+(newsletterUnits===1?'':'n')+' × 800, TKP 85 €)';
+  }
+  if(document.getElementById('out-newslettert')) document.getElementById('out-newslettert').textContent=newsletterUnits+' Ausgabe'+(newsletterUnits===1?'':'n');
   document.getElementById('out-ctr').textContent=(ctr*100).toFixed(1).replace('.',',')+' %';
   document.getElementById('out-days').textContent=days+' Tage';
   document.getElementById('out-rate').textContent=fmtE(rate);
@@ -1020,12 +1070,7 @@ function calc(){
     const oppEl=document.getElementById('basic-opp-saving');
     if(oppEl) oppEl.textContent='~'+fmtE(oppSaving);
   }
-  if(addonState.webcast&&currentPkg!=='advanced'&&currentPkg!=='basic') invest+=16900;
-  if(addonState.leadgen) invest+=parseInt(document.getElementById('sl-cpll').value)*150;
-  if(addonState.display) invest+=parseInt(document.getElementById('sl-dispb').value);
-  if(addonState.email)   invest+=emailTkp*400;
-  // banner kostenlos, gz 1.690 €
-  if(addonState.gz) invest+=1690;
+  invest+=extras.cost;
   if(document.getElementById('out-cpll')) document.getElementById('out-cpll').textContent=document.getElementById('sl-cpll').value;
   if(document.getElementById('out-dispb')) document.getElementById('out-dispb').textContent=fmtE(parseInt(document.getElementById('sl-dispb').value));
   if(document.getElementById('out-emailt')) document.getElementById('out-emailt').textContent=emailTkp+' TKP = '+fmtI(emailRecipients);
@@ -1086,10 +1131,15 @@ function calc(){
       webcast:{label:'On-Demand Webcast',cost:currentPkg==='medium'?16900:0,unit:''},
       leadgen:{label:'Leadgenerierung',cost:(addonState.leadgen?parseInt(document.getElementById('sl-cpll').value)*150:0),unit:''},
       display:{label:'Display Ads',cost:(addonState.display?parseInt(document.getElementById('sl-dispb').value):0),unit:''},
-      email:{label:'E-Mail-Reichweite',cost:(addonState.email?emailTkp*400:0),unit:''},
+      email:{label:'E-Mail-Reichweite',cost:(addonState.email?emailTkp*400+1500+1750:0),unit:''},
       banner:{label:'Kostenfreier Banner',cost:0,unit:'inklusive'},
       gz:{label:'Anzeige c\'t/iX',cost:1690,unit:''},
-      messe:{label:'Messeaufsteller',cost:0,unit:'Preis folgt'}
+      newsletter:{label:'Newsletter Ads',cost:(addonState.newsletter?newsletterUnits*85:0),unit:''},
+      messe:{label:'Messeaufsteller',cost:0,unit:'Preis folgt'},
+      quote:{label:'Analysten-Zitat',cost:0,unit:'Preis folgt'},
+      vinsights:{label:'Exkl. Vendor Insights',cost:3200,unit:''},
+      vbenchmark:{label:'Individ. Vendor Benchmark',cost:950,unit:''},
+      avideo:{label:'Video-Analystenstatement',cost:currentPkg==='advanced'?0:850,unit:currentPkg==='advanced'?'im Paket':''}
     };
     Object.entries(addonLabels).forEach(([key,cfg])=>{
       if(!addonState[key]) return;
@@ -1177,26 +1227,15 @@ function getState() {
   const o2c=parseInt(document.getElementById('sl-o2c').value)/100;
   const boostEl=document.getElementById('sl-boost');
   const boost=(boostEl)?parseInt(boostEl.value)/100:0.05;
-  const imp=parseInt(document.getElementById('sl-imp').value)
-    +(addonState.display?Math.round(parseInt(document.getElementById('sl-dispb').value)/189*1000):0)
-    +(addonState.email?parseInt(document.getElementById('sl-emailt').value)*1000:0)
-    +(addonState.banner?10000:0);
+  const extras=computeAddonExtras();
+  const imp=parseInt(document.getElementById('sl-imp').value)+extras.impressions;
   const ctr=parseFloat(document.getElementById('sl-ctr').value)/100;
   const days=parseInt(document.getElementById('sl-days').value);
   const rate=parseInt(document.getElementById('sl-rate').value);
   const assets=parseInt(document.getElementById('sl-assets').value);
   const ad=parseFloat(document.getElementById('sl-ad').value);
 
-  let invest;
-  if(currentPkg==='basic'){
-    invest=12900;
-  } else {
-    invest=pkgBase[currentPkg]||16900;
-    if(addonState.webcast&&currentPkg!=='advanced') invest+=16900;
-    if(addonState.leadgen) invest+=parseInt(document.getElementById('sl-cpll').value)*150;
-    if(addonState.display) invest+=parseInt(document.getElementById('sl-dispb').value);
-    if(addonState.email)   invest+=parseInt(document.getElementById('sl-emailt').value)*400;
-  }
+  let invest = (currentPkg==='basic' ? 12900 : (pkgBase[currentPkg]||16900)) + extras.cost;
 
   const mqll=pkgLeads[currentPkg]??20;
   const mqwc=(currentPkg==='advanced'||addonState.webcast)?50:0;
@@ -1327,6 +1366,11 @@ function updateContents(){
   if(addonState.display) items.push({icon:'chart-bar', text:'Display Ads (Add-on)', sub:'+ Impressions im heise-Netzwerk', color:'#165AA6'});
   if(addonState.email)   items.push({icon:'mail', text:'E-Mail-Kampagne (Add-on)', sub:'Direktansprache IT-Entscheider', color:'#165AA6'});
   if(addonState.messe)   items.push({icon:'map-pin', text:'Messeaufsteller (Add-on)', sub:'Preis folgt', color:'#165AA6'});
+  if(addonState.newsletter) items.push({icon:'newspaper', text:'Newsletter Ads (Add-on)', sub:'TKP 85 € · 800 Impr./Ausgabe', color:'#165AA6'});
+  if(addonState.quote)   items.push({icon:'quote', text:'Analysten-Zitat, grafisch aufbereitet (Add-on)', sub:'Preis folgt', color:'#165AA6'});
+  if(addonState.vinsights) items.push({icon:'clipboard-list', text:'Exklusive Vendor Insights (Add-on)', sub:'Ausgewählter Lösungsbereich inkl. Veröffentlichung', color:'#165AA6'});
+  if(addonState.vbenchmark) items.push({icon:'chart-bar', text:'Individualisierter Vendor Benchmark (Add-on)', sub:'Integration in den Vendor Benchmark Report', color:'#165AA6'});
+  if(addonState.avideo && currentPkg!=='advanced') items.push({icon:'video', text:'Video-Analystenstatement (Add-on)', sub:'Kernergebnisse zur freien Verwendung (1–3 min)', color:'#165AA6'});
 
   if(items.length===0){
     if(empty) empty.style.display='';
