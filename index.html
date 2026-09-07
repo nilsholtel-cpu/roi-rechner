@@ -420,6 +420,7 @@ input[type=range]:disabled::-webkit-slider-thumb{border-color:#94A3B8;box-shadow
       <div class="addon-card" id="ao-gz" onclick="toggleAddon('gz')"><div class="addon-name">Ganzseitige Anzeige c't/iX</div><div class="addon-price">1.690 € · +50.000 Impressions</div></div>
       <div class="addon-card" id="ao-newsletter" onclick="toggleAddon('newsletter')"><div class="addon-name">Newsletter Ads für Impressions</div><div class="addon-price">TKP 85 € · 800 Impr./Ausgabe</div></div>
       <div class="addon-card" id="ao-messe" onclick="toggleAddon('messe')"><div class="addon-name">Messeaufsteller</div><div class="addon-price">100 €</div></div>
+      <div class="addon-card" id="ao-bestin" onclick="toggleAddon('bestin')"><div class="addon-name">Best-In Badges</div><div class="addon-price">0 € · Goodie</div></div>
       <div class="addon-card" id="ao-quote" onclick="toggleAddon('quote')"><div class="addon-name">Analysten-Zitat, grafisch aufbereitet</div><div class="addon-price">350 €</div></div>
       <div class="addon-card" id="ao-vinsights" onclick="toggleAddon('vinsights')"><div class="addon-name">Exklusive Vendor Insights</div><div class="addon-price">3.200 €</div></div>
       <div class="addon-card" id="ao-vbenchmark" onclick="toggleAddon('vbenchmark')"><div class="addon-name">Individualisierter Vendor Benchmark</div><div class="addon-price">950 €</div></div>
@@ -631,7 +632,7 @@ let pkgLeads={basic:0,medium:20,advanced:0};
 // werden pro Paket getrennt gespeichert. `addonState` zeigt immer auf den
 // Datensatz des aktuell gewählten Pakets (in setPkg umgehängt).
 function emptyAddonState(){
-  return {webcast:false,leadgen:false,display:false,email:false,banner:false,gz:false,messe:false,quote:false,vinsights:false,vbenchmark:false,avideo:false,newsletter:false};
+  return {webcast:false,leadgen:false,display:false,email:false,banner:false,gz:false,messe:false,quote:false,vinsights:false,vbenchmark:false,avideo:false,newsletter:false,bestin:false};
 }
 const addonStateByPkg = {basic:emptyAddonState(),medium:emptyAddonState(),advanced:emptyAddonState()};
 let addonState = addonStateByPkg.medium;
@@ -1189,6 +1190,7 @@ function calc(){
       gz:{label:'Anzeige c\'t/iX',cost:1690,unit:''},
       newsletter:{label:'Newsletter Ads f. Impr.',cost:(addonState.newsletter?newsletterUnits*85:0),unit:''},
       messe:{label:'Messeaufsteller',cost:100,unit:''},
+      bestin:{label:'Best-In Badges',cost:0,unit:'Goodie'},
       quote:{label:'Analysten-Zitat',cost:350,unit:''},
       vinsights:{label:'Exkl. Vendor Insights',cost:3200,unit:''},
       vbenchmark:{label:'Individ. Vendor Benchmark',cost:950,unit:''},
@@ -1419,6 +1421,7 @@ function updateContents(){
   if(addonState.display) items.push({icon:'chart-bar', text:'Display Ads für Impressions (Add-on)', sub:'+ Impressions im heise-Netzwerk', color:'#165AA6'});
   if(addonState.email)   items.push({icon:'mail', text:'E-Mail-Kampagne (Add-on)', sub:'Direktansprache IT-Entscheider', color:'#165AA6'});
   if(addonState.messe)   items.push({icon:'map-pin', text:'Messeaufsteller (Add-on)', sub:'100 €', color:'#165AA6'});
+  if(addonState.bestin)  items.push({icon:'medal', text:'Best-In Badges (Goodie)', sub:'Kostenlos inklusive', color:'#B45309'});
   if(addonState.newsletter) items.push({icon:'newspaper', text:'Newsletter Ads für Impressions (Add-on)', sub:'TKP 85 € · 800 Impr./Ausgabe', color:'#165AA6'});
   if(addonState.quote)   items.push({icon:'quote', text:'Analysten-Zitat, grafisch aufbereitet (Add-on)', sub:'350 €', color:'#165AA6'});
   if(addonState.vinsights) items.push({icon:'clipboard-list', text:'Exklusive Vendor Insights (Add-on)', sub:'Ausgewählter Lösungsbereich inkl. Veröffentlichung', color:'#165AA6'});
