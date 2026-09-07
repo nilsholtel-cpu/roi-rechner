@@ -1388,7 +1388,8 @@ const PHOTO_ICONS = {
   'urkunde-photo': 'assets/urkunde.png',
   'vendor-benchmark-photo': 'assets/vendor-benchmark.png',
   'messeaufsteller-photo': 'assets/messeaufsteller.png',
-  'bestin-photo': 'assets/bestin-badge.png'
+  'bestin-photo': 'assets/bestin-badge.png',
+  'vendor-insights-photo': 'assets/vendor-insights.png'
 };
 
 function updateContents(){
@@ -1405,7 +1406,7 @@ function updateContents(){
   items.push({icon:'urkunde-photo', text:'Urkunde + Award-Badge', sub:'Intern & extern verwendbar', color:'#B45309'});
 
   if(currentPkg==='medium'||currentPkg==='advanced'){
-    items.push({icon:'clipboard-list', text:'Individueller Vendor Benchmark + Vendor Insights', sub:'Detaillierte Deep Insights — extern verwendbar, inkl. Management-Statements & Testimonials', color:'#165AA6'});
+    items.push({icon:'vendor-insights-photo', text:'Individueller Vendor Benchmark + Vendor Insights', sub:'Detaillierte Deep Insights — extern verwendbar, inkl. Management-Statements & Testimonials', color:'#165AA6'});
     items.push({icon:'newspaper', text:'Vendor Listing im Technology Research Hub (TRH)', sub:'Prominente Platzierung + Verlinkung zur Website', color:'#165AA6'});
     items.push({icon:'flag', text:'Pressemitteilung', sub:'Exklusive Nennung durch techconsult-Analyst', color:'#059669'});
   }
