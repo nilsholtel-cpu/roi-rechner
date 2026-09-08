@@ -413,7 +413,7 @@ input[type=range]:disabled::-webkit-slider-thumb{border-color:#94A3B8;box-shadow
     <div class="addon-section-title">Add-ons aktivieren</div>
     <div class="addon-grid">
       <div class="addon-card" id="ao-webcast" onclick="toggleAddon('webcast')"><div class="addon-name">On-Demand Webcast</div><div class="addon-price">9.900 € · inkl. 50 Leads</div></div>
-      <div class="addon-card" id="ao-leadgen" onclick="toggleAddon('leadgen')"><div class="addon-name">Leadgenerierung</div><div class="addon-price">variable MQL</div></div>
+      <div class="addon-card" id="ao-leadgen" onclick="toggleAddon('leadgen')"><div class="addon-name">Leadgenerierung</div><div class="addon-price">ab 150 € / Lead</div></div>
       <div class="addon-card" id="ao-display" onclick="toggleAddon('display')"><div class="addon-name">Display Ads für Impressions</div><div class="addon-price">TKP ab 189 €</div></div>
       <div class="addon-card" id="ao-email" onclick="toggleAddon('email')"><div class="addon-name">E-Mail-Reichweite</div><div class="addon-price" id="ao-email-price">400 € / TKP + 1.500 € Reporting + 1.750 € Remindermail</div></div>
       <div class="addon-card" id="ao-banner" onclick="toggleAddon('banner')"><div class="addon-name">Kostenfreier Banner</div><div class="addon-price">0 € · 50.000 Impr. (2× 7 Tage heise.de)</div></div>
@@ -1262,11 +1262,15 @@ function calc(){
   if(oppEl) {
     const pkgNames = {basic:'Basic', medium:'Medium', advanced:'Advanced'};
     const pkg = pkgNames[currentPkg] || currentPkg;
-    const monthsLeft = 9; // PUR MS 2026 Buchungsfenster ca. bis Q4
+    // Buchungsfenster der laufenden Studienperiode: verbleibende Monate bis
+    // Jahresende — berechnet statt hartkodiert, damit der Wert nicht jedes Jahr
+    // im Code nachgezogen werden muss.
+    const monthsLeft = Math.max(1, 12 - new Date().getMonth());
     const missedMonthly = Math.round(totalNet / 12);
     oppEl.innerHTML =
       'Jeder Monat ohne Vermarktung der Champion-Positionierung entspricht ~' +
-      fmtE(missedMonthly) + ' entgangenem Netto-Potenzial — bei gleichzeitig sinkendem Buchungsfenster für den Professional User Rating (' + pkg + '). ' +
+      fmtE(missedMonthly) + ' entgangenem Netto-Potenzial — bei gleichzeitig sinkendem Buchungsfenster (noch ca. ' +
+      monthsLeft + (monthsLeft===1?' Monat':' Monate') + ') für den Professional User Rating (' + pkg + '). ' +
       'Mitbewerber die bereits gebucht haben, vermarkten ihre Ergebnisse aktiv im gleichen Zielsegment. ' +
       'Das Buchungsfenster für diese Studienperiode ist begrenzt.';
   }
