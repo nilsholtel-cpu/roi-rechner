@@ -589,7 +589,7 @@ input[type=range]:disabled::-webkit-slider-thumb{border-color:#94A3B8;box-shadow
 
   <div class="total-box">
     <div>
-      <div class="total-label" id="t-label">Gesamt-ROI (Revenue + Einsparungen + Reichweite)</div>
+      <div class="total-label" id="t-label">Gesamt-ROI (Revenue + Einsparungen)</div>
       <div class="total-sub" id="t-sub">—</div>
       <div style="margin-top:10px;display:flex;align-items:center;gap:8px">
         <span style="display:inline-flex;align-items:center;gap:5px;font-size:10px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.3);padding:3px 10px;border-radius:20px;color:#ACDDFA"><svg class="icon" style="width:12px;height:12px"><use href="#ic-clock"/></svg> Amortisation</span>
@@ -1211,7 +1211,7 @@ function calc(){
   document.getElementById('t-sub').textContent=parts.join(' | ');
   document.getElementById('t-label').textContent=currentPkg==='basic'
     ? 'Gesamt-ROI (Effizienz · Opportunitätskosten-Vergleich)'
-    : 'Gesamt-ROI (Revenue + Einsparungen + Reichweite)';
+    : 'Gesamt-ROI (Revenue + Einsparungen)';
 
   // ── Payback Period ────────────────────────────────────────────────────────
   // Monthly net inflow: assume deals close evenly, sales cycle ~90 days = 3 months
