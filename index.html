@@ -674,10 +674,16 @@ function syncAddonUI(){
 }
 // On-Demand Webcast & Video-Analystenstatement sind in Advanced bereits
 // inklusive — dort immer gesperrt, unabhängig vom gespeicherten Zustand.
-// Diese Add-ons sind im Advanced-Paket bereits enthalten: dort gesperrt und als
-// "im Paket enthalten" ausgewiesen, damit sie nicht doppelt berechnet werden.
-// Der jeweilige Preis wird beim Wechsel zu Basic/Medium wiederhergestellt.
-const ADVANCED_INCLUDED = {
+// Add-ons, die je nach Paket bereits im Leistungsumfang enthalten sind: dort
+// gesperrt und als "im Paket enthalten" ausgewiesen, damit sie nicht doppelt
+// berechnet werden. In allen anderen Paketen reguläer buchbar — der Preis wird
+// beim Paketwechsel wiederhergestellt.
+const PKG_INCLUDED_ADDONS = {
+  basic:    [],
+  medium:   ['messe','vinsights','vbenchmark'],
+  advanced: ['messe','vinsights','vbenchmark','webcast','avideo']
+};
+const ADDON_PRICE_LABELS = {
   webcast:    '9.900 € · inkl. 50 Leads',
   avideo:     '850 €',
   messe:      '100 €',
@@ -687,11 +693,12 @@ const ADVANCED_INCLUDED = {
 
 function applyPackageAddonLocks(){
   const isAdvanced = currentPkg==='advanced';
-  Object.entries(ADVANCED_INCLUDED).forEach(([key, price])=>{
+  const included = PKG_INCLUDED_ADDONS[currentPkg] || [];
+  Object.entries(ADDON_PRICE_LABELS).forEach(([key, price])=>{
     const card = document.getElementById('ao-'+key);
     if(!card) return;
     const priceEl = card.querySelector('.addon-price');
-    if(isAdvanced){
+    if(included.includes(key)){
       addonState[key]=false;
       card.classList.remove('on');
       card.style.opacity='0.4';
@@ -1423,6 +1430,7 @@ function updateContents(){
     items.push({icon:'vendor-insights-photo', text:'Individueller Vendor Benchmark + Vendor Insights', sub:'Detaillierte Deep Insights — extern verwendbar, inkl. Management-Statements & Testimonials', color:'#165AA6'});
     items.push({icon:'trh-photo', text:'Vendor Listing im Technology Research Hub (TRH)', sub:'Prominente Platzierung + Verlinkung zur Website', color:'#165AA6'});
     items.push({icon:'flag', text:'Pressemitteilung', sub:'Exklusive Nennung durch techconsult-Analyst', color:'#059669'});
+    items.push({icon:'messeaufsteller-photo', text:'Messeaufsteller', sub:'Roll-Up für Messeauftritte — im Paket enthalten', color:'#165AA6'});
   }
   if(currentPkg==='medium' && currentMediumMode==='mql'){
     items.push({icon:'chart-bar', text:'20 MQL aus Paket', sub:'Qualifizierte Leads — DACH-IT-Markt', color:'#059669'});
@@ -1436,7 +1444,6 @@ function updateContents(){
     items.push({icon:'mic', text:'On-Demand Webcast', sub:'50 MQL via Video-on-Demand · Promotion + Aufzeichnung inklusive', color:'#059669'});
     items.push({icon:'monitor', text:'Display Ads auf heise.de', sub:'Banner mit Backlink zur Landingpage (Account Based gg. Aufpreis)', color:'#165AA6'});
     items.push({icon:'video', text:'Analysten-Video', sub:'Bewegtbild für Marketing & Sales-Enablement', color:'#165AA6'});
-    items.push({icon:'messeaufsteller-photo', text:'Messeaufsteller', sub:'Roll-Up für Messeauftritte — im Paket enthalten', color:'#165AA6'});
   }
 
   // Add-ons (medium/advanced)
