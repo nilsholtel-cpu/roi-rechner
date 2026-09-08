@@ -674,31 +674,39 @@ function syncAddonUI(){
 }
 // On-Demand Webcast & Video-Analystenstatement sind in Advanced bereits
 // inklusive — dort immer gesperrt, unabhängig vom gespeicherten Zustand.
-function applyPackageAddonLocks(){
-  if(currentPkg==='advanced'){
-    addonState.webcast=false;
-    document.getElementById('ao-webcast').classList.remove('on');
-    document.getElementById('ao-webcast').style.opacity='0.4';
-    document.getElementById('ao-webcast').style.pointerEvents='none';
-    document.getElementById('ao-webcast').querySelector('.addon-price').textContent='im Paket enthalten';
-    document.getElementById('row-wc').style.display='';
+// Diese Add-ons sind im Advanced-Paket bereits enthalten: dort gesperrt und als
+// "im Paket enthalten" ausgewiesen, damit sie nicht doppelt berechnet werden.
+// Der jeweilige Preis wird beim Wechsel zu Basic/Medium wiederhergestellt.
+const ADVANCED_INCLUDED = {
+  webcast:    '9.900 € · inkl. 50 Leads',
+  avideo:     '850 €',
+  messe:      '100 €',
+  vinsights:  '3.200 €',
+  vbenchmark: '950 €'
+};
 
-    addonState.avideo=false;
-    document.getElementById('ao-avideo').classList.remove('on');
-    document.getElementById('ao-avideo').style.opacity='0.4';
-    document.getElementById('ao-avideo').style.pointerEvents='none';
-    document.getElementById('ao-avideo-price').textContent='im Paket enthalten';
-  } else {
-    if(currentPkg==='medium') {
-      document.getElementById('ao-webcast').style.opacity='';
-      document.getElementById('ao-webcast').style.pointerEvents='';
-      document.getElementById('ao-webcast').querySelector('.addon-price').textContent='9.900 € · inkl. 50 Leads';
-      if(!addonState.webcast) document.getElementById('row-wc').style.display='none';
+function applyPackageAddonLocks(){
+  const isAdvanced = currentPkg==='advanced';
+  Object.entries(ADVANCED_INCLUDED).forEach(([key, price])=>{
+    const card = document.getElementById('ao-'+key);
+    if(!card) return;
+    const priceEl = card.querySelector('.addon-price');
+    if(isAdvanced){
+      addonState[key]=false;
+      card.classList.remove('on');
+      card.style.opacity='0.4';
+      card.style.pointerEvents='none';
+      if(priceEl) priceEl.textContent='im Paket enthalten';
+    } else {
+      card.style.opacity='';
+      card.style.pointerEvents='';
+      if(priceEl) priceEl.textContent=price;
     }
-    document.getElementById('ao-avideo').style.opacity='';
-    document.getElementById('ao-avideo').style.pointerEvents='';
-    document.getElementById('ao-avideo-price').textContent='850 €';
-  }
+  });
+  // MQL-Zeile des Webcasts: in Advanced immer sichtbar (50 MQL inklusive),
+  // sonst nur, wenn das Add-on gebucht ist.
+  const rowWc = document.getElementById('row-wc');
+  if(rowWc) rowWc.style.display=(isAdvanced||addonState.webcast)?'':'none';
 }
 
 let currentPkg='medium';
@@ -1428,6 +1436,7 @@ function updateContents(){
     items.push({icon:'mic', text:'On-Demand Webcast', sub:'50 MQL via Video-on-Demand · Promotion + Aufzeichnung inklusive', color:'#059669'});
     items.push({icon:'monitor', text:'Display Ads auf heise.de', sub:'Banner mit Backlink zur Landingpage (Account Based gg. Aufpreis)', color:'#165AA6'});
     items.push({icon:'video', text:'Analysten-Video', sub:'Bewegtbild für Marketing & Sales-Enablement', color:'#165AA6'});
+    items.push({icon:'messeaufsteller-photo', text:'Messeaufsteller', sub:'Roll-Up für Messeauftritte — im Paket enthalten', color:'#165AA6'});
   }
 
   // Add-ons (medium/advanced)
